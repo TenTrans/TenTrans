@@ -1,0 +1,65 @@
+# base config
+langs: [en, zh, ug, mn, ti]
+epoch: 20
+update_every_epoch:  20
+dumpdir: /apdcephfs/share_1399748/users/baijunji/data/exp/tentrans/mass_debug
+share_all_task_model: True
+optimizer: adam 
+batch_size: 32
+learning_rate: 0.0001
+learning_rate_warmup: 30000
+scheduling: warmupexponentialdecay
+group_by_size: False
+max_seq_length: 260
+weight_decay: 0.01
+eps: 0.000001 
+adam_betas: [0.9, 0.999]
+log_interval: 5
+patience: 100000
+max_tokens: 200
+
+
+tasks:
+  en_mlm:
+    task_name: unsup_mass
+    data: 
+        data_folder: /apdcephfs/share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        tgt_vocab: tentrans.vocab
+        train_valid_test: [dev.spm.en.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: False
+        group_by_size: True
+
+    sentenceRep:
+      type: transformer 
+      hidden_size: 512
+      ff_size: 2048
+      attention_dropout: 0.1
+      encoder_layers: 6
+      num_heads: 8
+      embedd_size: 512
+      dropout: 0.1
+      learned_pos: True
+      activation: relu
+
+    target:
+      type: transformer 
+      hidden_size: 512
+      ff_size: 2048
+      attention_dropout: 0.1
+      decoder_layers: 6
+      num_heads: 8
+      embedd_size: 512
+      dropout: 0.1
+      learned_pos: True
+      activation: relu
+
+    
+
+
+
+  
+
+    
+

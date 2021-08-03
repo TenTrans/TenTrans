@@ -1,0 +1,106 @@
+# base config
+langs: [en, zh, ug, mn, ti]
+epoch: 10000000
+update_every_epoch:  1000
+dumpdir: /share_1399748/users/baijunji/data/exp/tentrans/xlm_pretrain_stream
+share_all_task_model: True
+optimizer: adam 
+batch_size: 32
+learning_rate: 0.0001
+learning_rate_warmup: 30000
+scheduling: warmupexponentialdecay
+group_by_size: False
+max_seq_length: 260
+weight_decay: 0.01
+eps: 0.000001 
+adam_betas: [0.9, 0.999]
+log_interval: 5
+patience: 100000
+
+sentenceRep:
+  type: transformer #cbow, rnn
+  hidden_size: 768
+  ff_size: 3072
+  dropout: 0.1
+  attention_dropout: 0.1
+  encoder_layers: 12
+  num_lang: 5
+  num_heads: 12
+  embedd_size: 768
+  learned_pos: True
+  pretrain_embedd: 
+  activation: gelu
+
+tasks:
+  en_mlm:
+    task_name: mlm
+    reload_checkpoint: /share_1399748/users/baijunji/data/exp/tentrans/xlm_pretrain_stream/checkpoint_mlm_en_mlm_45
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.en.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: True
+    target:
+        sentence_rep_dim: 768
+        dropout: 0.1
+        share_out_embedd: True
+    task_weight: 0.3
+
+  zh_mlm:
+    task_name: mlm
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.zh.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: True
+    task_weight: 0.39
+    
+  mn_mlm:
+    task_name: mlm
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.mn.pth, dev.spm.en.pth, dev.spm.zh.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: False
+    task_weight: 0.06
+
+  ug_mlm:
+    task_name: mlm
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.ug.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: False
+    task_weight: 0.1
+  
+  ct_mlm:
+    task_name: mlm
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.ct.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: False
+    task_weight: 0.08
+
+  bo_mlm:
+    task_name: mlm
+    data: 
+        data_folder: /share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.spm.bo.pth, dev.spm.zh.pth, dev.spm.en.pth]
+        stream_text: True
+        p_pred_mask_kepp_rand: [0.15, 0.8, 0.1, 0.1]
+        split_data: False
+    task_weight: 0.07
+    
+

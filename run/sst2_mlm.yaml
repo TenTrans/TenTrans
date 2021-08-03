@@ -1,0 +1,28 @@
+# base config
+langs: [en]
+epoch: 200
+update_every_epoch: 200
+share_all_task_model: False
+batch_size: 200
+save_interval: 20
+dumpdir: /apdcephfs/mnt/share_1399748/users/baijunji/data/exp/tentrans/sst2_debug
+patience: 20
+sentenceRep:
+  type: transformer
+  pretrain_rep:  /apdcephfs/mnt/share_1399748/users/baijunji/data/exp/tentrans/xlm_pretrain_stream/checkpoint_mlm_en_mlm_best  
+
+tasks:
+  sst2_en:
+    task_name: classification
+    data:
+        data_folder: //mnt/share_1399748/users/baijunji/data/train_data/sst2.v2/xlm_inner/
+        src_vocab: tentrans.vocab
+        train_valid_test: [train.csv, dev.csv, dev.csv]
+        label1: [0, 1]
+        feature: [seq1, label1, lang1]
+    lr_e: 0.00001
+    lr_p: 0.00002
+    target:
+      sentence_rep_dim: 768
+      dropout: 0.1
+    weight_training: False

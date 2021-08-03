@@ -1,0 +1,61 @@
+
+# base config
+langs: [en, de]
+epoch: 100
+update_every_epoch: 2000
+dumpdir: /apdcephfs/share_1399748/users/baijunji/data/exp/tentrans/wmt14ende_base
+
+share_all_task_model: True
+optimizer: adam 
+learning_rate: 0.0007
+learning_rate_warmup: 4000
+scheduling: warmupexponentialdecay
+max_tokens: 4096
+max_seq_length: 512
+save_intereval: 1
+weight_decay: 0
+adam_betas: [0.9, 0.98]
+
+clip_grad_norm: 0
+label_smoothing: 0.1
+accumulate_gradients: 2
+share_all_embedd: True
+patience: 10
+share_out_embedd: True
+
+
+tasks:
+  wmtende_mt:
+    task_name: seq2seq
+    reload_checkpoint:
+    data:
+        data_folder:  /apdcephfs/share_1399748/users/baijunji/data/train_data/wmt16_ende/
+        src_vocab: vocab.bpe.32000
+        tgt_vocab: vocab.bpe.32000
+        train_valid_test: [train.bpe.en.pth:train.bpe.de.pth, valid.bpe.en.pth:valid.bpe.de.pth, test.bpe.en.pth:test.bpe.de.pth]
+        group_by_size: True
+        max_len: 200
+
+    sentenceRep:
+      type: transformer 
+      hidden_size: 512
+      ff_size: 2048
+      attention_dropout: 0.1
+      encoder_layers: 6
+      num_heads: 8
+      embedd_size: 512
+      dropout: 0.1
+      learned_pos: True
+      activation: relu
+
+    target:
+      type: transformer 
+      hidden_size: 512
+      ff_size: 2048
+      attention_dropout: 0.1
+      decoder_layers: 6
+      num_heads: 8
+      embedd_size: 512
+      dropout: 0.1
+      learned_pos: True
+      activation: relu

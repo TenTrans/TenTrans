@@ -1,68 +1,78 @@
 ## WMT21 Multilingual Low-Resource Translation for Indo-European Languages shared task
 
-We pay attention to the subtask of  **Wikipedia cultural heritage articles**.
+http://statmt.org/wmt21/multilingualHeritage-translation-task.html
 
-- Task languages: **Romance languages**
+-  **Romance languages**: **from Catalan to Occitan, Romanian and Italian**（one-to-many）
 
-- The translation direction: **from Catalan to Occitan, Romanian and Italian**（one-to-many）
-
-  |               | oc  | ro   | it   |
-| ------------- | ------ | ------- | ------- |
-| **ca** | - | - | - |
-
-- Related 4 high-resourced languages——Spanish, French and Portuguese data (+ English!) are allowed for training but translations are not evaluated.
 
 ## 1. Statistics of all training data
 
-### 1.1 Low-resourced languages parallel data
+### 1.1 Low-resource languages parallel data
 
 - **(Task directions) ca-oc/ro/it **
 
-|                     | ca-oc  | ca-ro   | ca-it   |
-| ------------------- | ------ | ------- | ------- |
-| Number of sentences | 138743 | 2169801 | 6345272 |
-| Filtered            | 138741 | 2104099 | 5804556 |
+|                     | ca-oc  | ca-ro | ca-it |
+| ------------------- | ------ | ----- | ----- |
+| Number of sentences | 138.7K | 2.2M  | 6.3M  |
+| Filtered            | 138.7K | 2.1M  | 5.8M  |
 
 - (Pairs between target low resource languages) **oc-ro-it**
 
 
-|                     | it-ro   | it-oc  | oc-ro |
-| ------------------- | ------- | ------ | ----- |
-| Number of sentences | 7153087 | 121957 | 81406 |
-| Filtered            | 6878705 | 121957 | 81406 |
+|                     | it-ro | it-oc | oc-ro |
+| ------------------- | ----- | ----- | ----- |
+| Number of sentences | 7.2M  | 122K  | 81K   |
+| Filtered            | 6.9M  | 122K  | 81K   |
 
-### 1.2 High-low parallel data
+### 1.2 High-low resource paired data
 
 - We have 4 related rich languages es/en/fr/pt allowed for training.
 
-| Filtered | it       | oc     | ro       | ca      |
-| -------- | -------- | ------ | -------- | ------- |
-| **en**   | 22268782 | 59302  | 14534851 | 6963317 |
-| **es**   | 4292528  | 35741  | 4152935  | 6451496 |
-| **fr**   | 4728840  | 124055 | 1512046  | 6965692 |
-| **pt**   | 15611591 | 24342  | 5556932  | 4553670 |
+| No filter | it    | oc   | ro    | ca    |
+| --------- | ----- | ---- | ----- | :---- |
+| **en**    | 22.4M | 73K  | 14.6M | 7.1M  |
+| **es**    | 4.4M  | 36K  | 6.4M  | 12.3M |
+| **fr**    | 4.8M  | 124K | 1.6M  | 7.7M  |
+| **pt**    | 24.3M | 24K  | 5.7M  | 4.9M  |
 
-### 1.3  Monolingual data of low-resourced languages
+| Filtered | it    | oc   | ro    | ca   |
+| -------- | ----- | ---- | ----- | ---- |
+| **en**   | 22.3M | 59K  | 14.5M | 7.0M |
+| **es**   | 4.3M  | 36K  | 4.2M  | 6.5M |
+| **fr**   | 4.7M  | 124K | 1.5M  | 7.0M |
+| **pt**   | 15.6M | 24K  | 5.6M  | 4.6M |
 
-|          | it       | ro       | oc     | ca      |
-| -------- | -------- | -------- | ------ | ------- |
-| Filtered | 38590424 | 13389667 | 225196 | 8297485 |
+### 1.3  Monolingual data of low-resource languages
+
+|           | it    | oc     | ro     |
+| --------- | ----- | ------ | ------ |
+| No filter | 275M  | 378K | 193.5M |
+| Filtered  | 38.3M |  225K  |13.4M  |
 
 ### 1.4 Data filtering
 
 We  partially refer to m2m-100 data preprocessing(except for frequency cleaning) in FAIRSEQ。
+
 https://github.com/pytorch/fairseq/tree/374fdc5cd94d361bb9b1089fe2c1d30a2eb15fdd/examples/m2m_100
 
-## 2. Best single model(add links!)
+```
+# remove sentences with more than 50% punctuation
+# deduplicate training data
+# remove all instances of evaluation data from the training data
+# apply bpe/spm
+# length ratio cleaning
+```
 
-We experiment with increasing network capacity by increasing embed dimension, FFN size, number of heads, and number of layers but find that deep and wide model architecture give us training hurdles. So that almost all subsequent models are based on the **base** Transformer architecture.
+## 2. Best single model
+
+We experiment with larger network capacity by increasing embed dimension, FFN size, number of heads, and number of layers but find that deep and wide model architecture give us training hurdles. So that almost all subsequent models are based on the *base* Transformer architecture.
 
 ### 2.1 Baseline
 
 - ca--oc/ro/it：as to the one-to-many multilingual model we using a single encoder/decoder shared for all languages.
 
 
-Result：
+Results on validation set:
 
 |      | oc   | ro    | it    | AVG BLEU |
 | ---- | ---- | ----- | ----- | -------- |
@@ -72,73 +82,115 @@ Result：
   - Training 1-1 dedicated bilingual models  
   - Joint training on ca/oc/ro/it simultaneously（many-to-many multilingual model ）
 
+Results on validation set:
+
+|      | ca-oc | ca-ro | ca-it | AVG BLEU    |
+| ---- | ----- | ----- | ----- | ----------- |
+| 1-1  | -     | -     | 33.91 |             |
+| 1-1  | 30.02 | -     | -     | 28.48       |
+| 1-1  | -     | 21.51 | -     |             |
+| 4-4  | 41.44 | 22.81 | 31.01 | 31.75333333 |
+
 ### 2.2 Pivot
 
-Considering rich-low resource bilingual data，we train a **high(pivot) --> src** multilingual model for the purpose of back translation in advance. And the target side used for back translation is rich(pivot) in **high(pivot) --> tgt** bilingual data，so we get **src(pseudo)--tgt** bilingual data。
+Considering high-low resource bilingual data，we train a **high(pivot) --> src** multilingual model for the purpose of back translation in advance. And the target side used for back translation is high(pivot) in **high(pivot) --> tgt** bilingual data，so we get **src(pseudo)--tgt** bilingual data。
 
-In the experiment, we train a high--ca multilingual model for BT, and back-translate rich resources data in high--oc/ro/it to get ca--oc/ro/it pseudo bilingual data.
+In the experiment, we train a high--ca multilingual model for BT, and back-translate high-resource data in high--oc/ro/it to get ca--oc/ro/it pseudo data.
 
 <img src="/Users/yanghan/Library/Application Support/typora-user-images/image-20210713162329438.png" alt="image-20210713162329438" style="zoom:50%;" />
 
-Note：to balance ture and pseudo data distribution, we oversample ca--ro true parallel data.
+Note：to balance ture and pseudo data distribution, we oversample authentic bilingual data to be of the same magnitude as synthetic data.
+
+Results on validation set:
+
+|      | oc    | ro    | it   | AVG BLEU |
+| ---- | ----- | ----- | ---- | -------- |
+| ca   | 26.98 | 26.33 | 34.2 | 29.17    |
 
 ### 2.3 Back translation
 
 Back-translation is an effective and commonly used data augmentation technique to incorporate monolingual data into a translation system.
 
-- ca--it：since the parallel data in this direction is relatively rich compared to the other two directions, we train a bilingual BT model.
-- ca--oc/ro：Because these two directions are facing a parallel data-scarce problem, so that we employ many-to-many multilingual model which trained on 4 low resource languages previously in baseline system to back translate, rather than using the dedicated bilingual model to BT.
+- ca--it：since the parallel data in this direction is relatively rich compared to the other two directions, we train an individual BT model.
+- ca--oc/ro：Because these two directions are facing a parallel data-scarce problem, so that we employ a many-to-many multilingual model which trained on 4 low-resource languages previously to back translate, rather than using a dedicated bilingual model to BT.
 
-Note: we do not employ data selection on generated data, but straightly use pseudo data to train a multilingual model from scratch, followed by fine-tuning on authentic parallel data.
+We straightly use pseudo data to train a multilingual model from scratch, followed by fine-tuning on authentic parallel data.
 
-### 2.4 High-low multilingual model
+Results on validation set:
 
-Training multiple language pairs together may result in transfer learning. Bring related high-resourced language pairs in the same typological language family should help gain a boost in low-resourced language pairs.
+|      | oc    | ro    | it   | AVG BLEU |
+| ---- | ----- | ----- | ---- | -------- |
+| ca   | 48.21 | 22.66 | 32.9 | 34.59    |
 
-- We utilize **high--low** resource parallel data as well as pairs between low-resourced languages, to jointly train an 8-4 multilingual model. We get an **8-4 multilingual model**.
-  - 8：means 4 high-resourced languages plus 4 low-resourced languages (en es pt fr + ca oc ro it)
-  - 4：means 4 low-resourced languages (ca oc ro it)
+### 2.4 Combine all data
 
-Result：
+when we have synthetic parallel datagenerated from BT and Pivot, we can combine authentic and synthetic parallel data together tojointly train a multilingual model named **Combine-All**
+
+Results on validation set:
+
+|      | oc    | ro    | it    | AVG BLEU    |
+| ---- | ----- | ----- | ----- | ----------- |
+| ca   | 26.75 | 29.59 | 37.49 | 31.27666667 |
+
+### 2.5 High-low 8-4 multilingual model
+
+Training multiple language pairs together may result in transfer learning. Bring related high-resource language pairs in the same typological language family should help gain a boost in low-resource language pairs.
+
+- We utilize **high--low** resource paired data as well as pairs between low-resource languages, to jointly train **an 8-4 multilingual model**. As for other high-low resource language pairs, we extract 2K sentences from training data as the validation set. 
+  - 8：means 4 high-resource languages plus 4 low-resource languages (en es pt fr + ca oc ro it)
+  - 4：means 4 low-resource languages (ca oc ro it)
+
+Results on validation set:
 
 |      | oc    | ro    | it    | AVG BLEU |
 | ---- | ----- | ----- | ----- | -------- |
 | ca   | 51.49 | 29.11 | 38.26 | 39.62    |
 
-### 2.5 Pretrain
+### 2.6 Pretrain
 
-In addition to the above methods that utilize high resource-language paired with low-resourced languages, we also try experimenting with pretraining models that pre-trained on massive text to transfer knowledge for the target task.
+In addition to the above methods that utilize high-resource language paired with low-resource languages, we also experiment with pretraining models that pre-trained on massive text to transfer knowledge to the target task.
 
-We employ open resource pre-train model m2m-100, our experiments are based on the m2m-100 1.2B_last model:
+We employ open resource pre-train model m2m-100, our experiments are based on the m2m-100 1.2B_last checkpoint:
 
 | encoder-embed-dim | encoder-ffn-embed-dim | encoder-attention-heads | encoder layers |
 | ----------------- | --------------------- | ----------------------- | -------------- |
 | 1024              | 8192                  | 16                      | 24             |
 
-- Parameters setting in fine tuning refers to mBART.
-- ca--oc：firstly we employ multilingual fine-tune on the pre-trained model till the updates reach 20w/110w, after that we continue with bilingual fine-tune using authentic parallel data.
-  - We try merely use authentic data or use authentic data plus pseudo data in multilingual fine-tune and finally choose the latter one.
-- ca--ro：since the results after multilingual/bilingual fine-tune do not obtain promotion over original pre-train model, so we directly utilize pre-train model without fine-tune.
+- Parameter settings in fine-tuning refer to fine-tuning mBART.
+- ca--oc：firstly we employ multilingual fine-tuning on the pre-trained model till the updates reach 20w/110w, after that we continue with bilingual fine-tuning using authentic parallel data.
+  - We try merely use authentic data or use authentic data plus pseudo data in multilingual fine-tuning and finally adopt the latter one.
+- ca--ro：since the results after multilingual/bilingual fine-tuning do not show improvement over the original pre-train model, so we directly utilize pre-train model without fine-tuning.
 
-We exploit ca--oc、ca--ro data obtained through sentence level knowledge distillation and continue to train on 8-4 multilingual model trained above. Finally, we get a new model named **rich-m2m-KD**.
+We exploit ca--oc、ca--ro data obtained through sentence-level knowledge distillation and continue to train on 8-4 multilingual model trained above. Finally, we get a new model named **rich-m2m-KD**.
 
-Result：
+Results on validation set:
 
 |      | oc    | ro    | it    | AVG BLEU |
 | ---- | ----- | ----- | ----- | -------- |
 | ca   | 65.18 | 32.85 | 36.19 | 44.74    |
 
-## 3. Indomain fine tune
+## 3. Domain adaptation
 
-Dev and test dataset belong to the cultural heritage domain, whereas domains in training data are various, so domain adaptation is required.
+Validation and test set belong to the cultural heritage domain, whereas domains in training data are various, so domain adaptation is required.
 
-- Pre-train model：bert_base_multilingual_cased
+- We utilize pre-train model  https://huggingface.co/bert-base-multilingual-cased to train a domain classifier.
 
-- Positive samples for training a classifier：combine dev sets of 3 languages ca/ro/it.
+Parameters：
 
-- We select parallel data predicted to be positive with a probability > 0.7 as the in-domain corpus, then we fine-tune on 8-4 model with a smaller learning rate. Finally, we get another \ model named **rich-indomain-ft**.
+|      |lr   | epochs    | batch-size    |
+| ---- | ----- | ----- | ----- |
+| bert_base_multilingual_cased   | 3e-5 | 4 | 16*8 |
 
-Result：
+- Positive samples for training a classifier：combine validation sets of 3 languages ca/ro/it.
+- We select parallel data predicted to be positive with a probability > 0.7 as the in-domain corpus, then we fine-tune on 8-4 model with a smaller learning rate. Finally, we get another model named **rich-indomain-ft**.
+
+Selected data:
+
+|      | it     | oc    | ro     |
+| ---- | ------ | ----- | ------ |
+| Ca   | 814797 | 59844 | 296811 |
+
+Results on validation set:
 
 |      | oc   | ro   | it    | AVG BLEU |
 | ---- | ---- | ---- | ----- | -------- |
@@ -146,6 +198,12 @@ Result：
 
 ## 4. Ensemble
 
+- Constrastive：we combine Combine-All, rich-m2m-KD, rich-indomain-ft to be our ensemble model.
 - Primary：we combine rich-m2m-KD, rich-indomain-ft to be our ensemble model.
 
+Results on validation set:
 
+|              | ca-oc | ca-ro | ca-it | AVG         |
+| ------------ | ----- | ----- | ----- | ----------- |
+| Constrastive | 64.02 | 32.63 | 40.04 | 45.56333333 |
+| Primary      | 64.7  | 32.85 | 39.41 | 45.65333333 |

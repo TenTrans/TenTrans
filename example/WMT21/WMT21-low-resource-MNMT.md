@@ -97,7 +97,7 @@ Considering high-low resource bilingual data，we train a **high(pivot) --> src*
 
 In the experiment, we train a high--ca multilingual model for BT, and we back-translate high-resource data in high--oc/ro/it to get ca--oc/ro/it pseudo data.
 
-<img src="https://images.cnblogs.com/cnblogs_com/yh-blog/1637590/o_210806092824image-20210713162329438%E7%9A%84%E5%89%AF%E6%9C%AC.png" style="zoom:50%;" />
+<img src="./pivot.png" style="zoom:50%;" />
 
 Note：to balance genuine and pseudo data distribution, we oversample genuine bilingual data to be of the same magnitude as synthetic data.
 

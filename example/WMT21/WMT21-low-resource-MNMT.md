@@ -112,7 +112,7 @@ Results on validation set:
 Back-translation is an effective and commonly used data augmentation technique to incorporate monolingual data into a translation system.
 
 - ca--it：since the parallel data in this direction is relatively rich compared to the other two directions, we train an individual BT model.
-- ca--oc/ro：Because these two directions are facing a parallel data-scarce problem, so that we employ a many-to-many multilingual model which trained on 4 low-resource languages previously to perform back-translation, rather than use a dedicated bilingual model.
+- ca--oc/ro：because these two directions are facing parallel data-scarce problem, so that we utilize the many-to-many multilingual model that trained on 4 low-resource languages previously to perform back-translation, rather than use a dedicated bilingual model.
 
 We straightly use pseudo data to train a multilingual model from scratch, followed by fine-tuning on genuine parallel data.
 
@@ -138,9 +138,9 @@ Results on validation set:
 
 ### 2.5 High-low 8-4 multilingual model
 
-Training multiple language pairs together may result in transfer learning. Bring related high-resource language pairs in the same typological language family should help gain a boost in low-resource language pairs.
+Training multiple language pairs together may result in transfer learning. Bringing related high-resource language pairs in the same linguistic family should help gain a boost in low-resource language pairs.
 
-- We utilize **high--low** resource paired data as well as pairs between low-resource languages, to jointly train **an 8-4 multilingual model**. As for other high-low resource language pairs, we extract 2K sentences from training data as the validation set. 
+- We utilize **high--low** resource paired data as well as pairs between low-resource languages, to jointly train an **8-4 multilingual model**. As for each high-low resource language pairs, we extract 2K sentences from training data as the validation set. 
   - 8：means 4 high-resource languages plus 4 low-resource languages (en es pt fr + ca oc ro it)
   - 4：means 4 low-resource languages (ca oc ro it)
 
@@ -152,18 +152,18 @@ Results on validation set:
 
 ### 2.6 Pretrain
 
-In addition to the above methods that utilize high-resource language paired with low-resource languages, we also experiment with pretraining models that pre-trained on massive text to transfer knowledge to the target task.
+In addition to the above methods, we also experiment with pre-trained models that trained on massive text to transfer knowledge into the target task.
 
-We employ open resource pre-train model m2m-100, our experiments are based on the m2m-100 1.2B_last checkpoint:
+We employ open resource pre-trained model m2m-100, the experiments are based on the m2m-100 1.2B_last checkpoint:
 
 | encoder-embed-dim | encoder-ffn-embed-dim | encoder-attention-heads | encoder layers |
 | ----------------- | --------------------- | ----------------------- | -------------- |
 | 1024              | 8192                  | 16                      | 24             |
 
-- Parameter settings in fine-tuning refer to fine-tuning mBART.
-- ca--oc：firstly we employ multilingual fine-tuning on the pre-trained model till the updates reach 20w/110w, after that we continue with bilingual fine-tuning using genuine parallel data.
+- Parameter settings in fine-tuning is the same as fine-tuning mBART.
+- ca--oc：firstly we employ multilingual fine-tuning on the pre-trained model till the updates reach 200K/1.1M, after that we continue with bilingual fine-tuning using genuine parallel data.
   - We try merely use genuine data or use genuine data concatenated with pseudo data in multilingual fine-tuning and we finally adopt the latter one.
-- ca--ro：since the results after multilingual/bilingual fine-tuning do not show improvement over the original pre-train model, so we directly utilize pre-train model without fine-tuning.
+- ca--ro：since the results after multilingual/bilingual fine-tuning do not show improvement over the original pre-trained model, so we directly utilize pre-trained model without fine-tuning.
 
 We exploit ca--oc、ca--ro data obtained through sentence-level knowledge distillation and continue to train on 8-4 multilingual model trained above. Finally, we get a new model named **rich-m2m-KD**.
 
@@ -202,8 +202,8 @@ Results on validation set:
 
 ## 4. Ensemble
 
-- Contrastive：we combine Combine-All, rich-m2m-KD, rich-indomain-ft to be our ensemble model.
-- Primary：we combine rich-m2m-KD, rich-indomain-ft to be our ensemble model.
+- Contrastive system：rich-m2m-KD, rich-indomain-ft, Combine-All.
+- Primary system：rich-m2m-KD, rich-indomain-ft
 
 Results on validation set:
 

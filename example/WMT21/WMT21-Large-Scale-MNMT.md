@@ -4,7 +4,7 @@ http://statmt.org/wmt21/large-scale-multilingual-translation-task.html
 
 **Small Track #2**: 5 South East Asian languages, 30 directions: Javanese, Indonesian, Malay, Tagalog, Tamil, English
 
-The model and translation code we submitted can be found [here](https://share.weiyun.com/Hgh9dT9q).
+The model and translation code we submitted can be found [here](https://drive.google.com/u/0/uc?export=download&confirm=xycK&id=1Un_ITJmTTAew7GlSnkQAPAdceBcz7QH-).
 
 ## Statistics of all training data
 
@@ -20,7 +20,7 @@ https://github.com/pytorch/fairseq/tree/374fdc5cd94d361bb9b1089fe2c1d30a2eb15fdd
 # length ratio cleaning
 ```
 
-Our processing script is available [here](https://share.weiyun.com/EKUdg0TS).
+Our processing script is available [here](https://drive.google.com/u/0/uc?export=download&confirm=ElGP&id=1yDFGXnfFdLZoShayD0r064dcBIhzbzDH).
 
 |           | En⇄Id  | En⇄Jv | En⇄Ms | En⇄Ta | En⇄Tl | Id⇄Jv | Id⇄Ms | Id⇄Ta |
 | --------- | ------ | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
@@ -54,7 +54,7 @@ we utilize pre-trained language model multilingual BERT to train a domain classi
 
 At the same domain test set, the domain classifier recognition accuracy is achieved at 93.97%. We select sentences predicted to be positive with a probability greater than threshold 0.7 to form an in-domain corpus.
 
-The selection scores are [here](https://share.weiyun.com/RQbNokFU).
+The selection scores are [here](https://drive.google.com/u/0/uc?export=download&confirm=_iLA&id=1_r0JuGEsGInukwKv8qVQe2hObUL1lC5g).
 
 ### Knowledge Distillation
 
@@ -87,7 +87,7 @@ We started with a gradual fine-tuning on the domain-specific data selected at th
 
 ## Train
 
-Our training script is available [here](https://share.weiyun.com/Nixl9eY0).
+Our training script is available [here](https://drive.google.com/u/0/uc?export=download&confirm=LnVp&id=1lg4AdksDXhZZZS_M2mmsjVScuMXdrimH).
 
 ```
 PATH=/PATHTOCODE

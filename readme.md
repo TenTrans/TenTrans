@@ -4,11 +4,7 @@
   - [（一）预训练模型](#一预训练模型)
   - [（二）机器翻译](#二机器翻译)
   - [（三）文本分类](#三文本分类)
-- [常见问题  FAQ](#常见问题--faq)
-- [行为准则](#行为准则)
-- [如何加入](#如何加入)
-- [团队介绍](#团队介绍)
-- [问题反馈](#问题反馈)
+
 
 
 ## 项目介绍
@@ -36,7 +32,7 @@ TenTrans目前支持的NLP任务包括
 
 ## 安装教程
 ```
-git clone git@git.woa.com:baijunji/Teg-Tentrans.git
+git clone git@github.com:TenTrans/TenTrans.git
 pip install -r requirements.txt 
 ```
 Tentrans是一个基于Pytorch的轻量级工具包，安装十分方便。

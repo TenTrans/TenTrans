@@ -1,11 +1,16 @@
-import math
 import torch
 import torch.nn as nn
-from src.utils.utility import Embedding
+from src.utils.utility import get_embedding
 import numpy as np
 
 
 def positional_encoding(size, max_len=1024, learned=False):
+    """
+        Positional Encoding with maximum length max_len
+        :param size:
+        :param max_len:
+        :param learned: if position embedding is learnedable.
+    """
     if learned:
         return LearnedPositionalEncoding(size, max_len)
     return SinusoPositionalEncoding(size, max_len)
@@ -20,7 +25,7 @@ class LearnedPositionalEncoding(nn.Module):
         :param dropout:
         """
         super().__init__()
-        self.pe = Embedding(max_len, size)
+        self.pe = get_embedding(max_len, size)
 
     def forward(self, emb, positions=None):
         """Embed inputs.
@@ -30,8 +35,8 @@ class LearnedPositionalEncoding(nn.Module):
         """
         length = emb.size(1)
         if positions is None:
-            positions = torch.arange(length, dtype=torch.long).unsqueeze(0).to(
-                emb.device)
+            positions = (torch.arange(
+                length, dtype=torch.long).unsqueeze(0).to(emb.device))
         return self.pe(positions) + emb
 
 
@@ -44,7 +49,7 @@ class SinusoPositionalEncoding(nn.Module):
         :param dropout:
         """
         super().__init__()
-        self.pe = Embedding(max_len, size)
+        self.pe = get_embedding(max_len, size)
         position_enc = np.array(
             [[pos / np.power(10000, 2 * (j // 2) / size) for j in range(size)]
              for pos in range(max_len)])
@@ -56,11 +61,10 @@ class SinusoPositionalEncoding(nn.Module):
         self.pe.weight.detach_()
         self.pe.weight.requires_grad = False
 
-
     def forward(self, emb, positions=None):
 
         length = emb.size(1)
         if positions is None:
-            positions = torch.arange(length, dtype=torch.long).unsqueeze(0).to(
-                emb.device)
+            positions = (torch.arange(
+                length, dtype=torch.long).unsqueeze(0).to(emb.device))
         return self.pe(positions) + emb

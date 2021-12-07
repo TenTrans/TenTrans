@@ -1,121 +1,125 @@
+import errno
+import logging
+import os
+import random
+import shutil
+import numpy as np
+import sacrebleu
 from torch import nn
 from torch import Tensor
-import numpy as np
 import torch
 import yaml
-import random
-import os
-import shutil
-import logging
-import errno
-import sacrebleu
 
 
 def str2bool(v):
+    import argparse
     if isinstance(v, bool):
         return v
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+    if v.lower() in ("yes", "true", "t", "y", "1"):
         return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    elif v.lower() in ("no", "false", "f", "n", "0"):
         return False
     else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
+        raise argparse.ArgumentTypeError("Boolean value expected.")
 
 
 def parase_config(config):
-    config['NPROC_PER_NODE'] = int(
-        os.environ['NPROC_PER_NODE']) if 'NPROC_PER_NODE' in os.environ else 1
+    config["NPROC_PER_NODE"] = (int(os.environ["NPROC_PER_NODE"])
+                                if "NPROC_PER_NODE" in os.environ else 1)
 
-    config['batch_size'] = config.get('batch_size', 32)
-    config['max_tokens'] = config.get('max_tokens', -1)
-    config['group_by_size'] = config.get('group_by_size', True)
-    config['max_seq_length'] = config.get('max_seq_length', 512)
-    config['max_len'] = config.get('max_len', 100)
-    config['clip_grad_norm'] = config.get('clip_grad_norm', 5)
-    config['share_out_embedd'] = config.get('share_out_embedd', False)
-    config['share_all_embedd'] = config.get('share_all_embedd', False)
-    config['patience'] = config.get('patience', 5)
-    config['label_smoothing'] = config.get('label_smoothing', 0.)
-    config['accumulate_gradients'] = config.get('accumulate_gradients', 1)
-    config['update_every_epoch'] = config.get('update_every_epoch', 5000)
-    config['save_interval'] = config.get('save_interval', 1)
-    config['share_all_task_model'] = config.get('share_all_task_model', True)
-    config['share_all_task_sentence_rep'] = config.get(
-        'share_all_task_sentence_rep', False)
-    config['epoch'] = config.get('epoch', 100)
-    config['dumpdir'] = config.get('dumpdir', './dump')
-    config['log_interval'] = config.get('log_interval', 20)
-    config['target'] = config.get('target', {})
-    config['sentenceRep'] = config.get('sentenceRep', {})
-    config['reset_optimizer'] = config.get('reset_optimizer', False)
-    config['keep_last_checkpoint'] = config.get('keep_last_checkpoint', -1)
-    config['reload_checkpoint'] = config.get('reload_checkpoint', "")
-    config['multi_task_mode'] = config.get('multi_task_mode', False)
-    
-    for task_id, task_params in config['tasks'].items():
-        task_type = task_params['task_name']
+    config["batch_size"] = config.get("batch_size", 32)
+    config["max_tokens"] = config.get("max_tokens", -1)
+    config["group_by_size"] = config.get("group_by_size", True)
+    config["max_seq_length"] = config.get("max_seq_length", 512)
+    config["max_len"] = config.get("max_len", 100)
+    config["clip_grad_norm"] = config.get("clip_grad_norm", 5)
+    config["share_out_embedd"] = config.get("share_out_embedd", False)
+    config["share_all_embedd"] = config.get("share_all_embedd", False)
+    config["patience"] = config.get("patience", 5)
+    config["label_smoothing"] = config.get("label_smoothing", 0.0)
+    config["accumulate_gradients"] = config.get("accumulate_gradients", 1)
+    config["update_every_epoch"] = config.get("update_every_epoch", 5000)
+    config["save_interval"] = config.get("save_interval", 1)
+    config["share_all_task_model"] = config.get("share_all_task_model", True)
+    config["share_all_task_sentence_rep"] = config.get(
+        "share_all_task_sentence_rep", False)
+    config["epoch"] = config.get("epoch", 100)
+    config["dumpdir"] = config.get("dumpdir", "./dump")
+    config["log_interval"] = config.get("log_interval", 20)
+    config["target"] = config.get("target", {})
+    config["sentenceRep"] = config.get("sentenceRep", {})
+    config["reset_optimizer"] = config.get("reset_optimizer", False)
+    config["keep_last_checkpoint"] = config.get("keep_last_checkpoint", -1)
+    config["reload_checkpoint"] = config.get("reload_checkpoint", "")
+    config["multi_task_mode"] = config.get("multi_task_mode", False)
 
-        if task_type == 'classification':
-            task_params['data']['label12id'] = {
+    for _, task_params in config["tasks"].items():
+        task_type = task_params["task_name"]
+
+        if task_type in ["classification", "segment_labeling"]:
+            task_params["data"]["label12id"] = {
                 str(label): i
-                for i, label in enumerate(task_params['data'].get(
-                    'label1', []))
+                for i, label in enumerate(task_params["data"].get(
+                    "label1", []))
             }
-            task_params['num_label1'] = len(task_params['data']['label12id'])
-            task_params['target']['num_label1'] = task_params['num_label1']
+            task_params["num_label1"] = len(task_params["data"]["label12id"])
+            task_params["target"]["num_label1"] = task_params["num_label1"]
 
         # data setting
-        task_params['data']['batch_size'] = task_params['data'].get(
-            'batch_size', config['batch_size'])
-        task_params['data']['max_tokens'] = task_params['data'].get(
-            'max_tokens', config['max_tokens'])
-        task_params['data']['max_seq_length'] = task_params['data'].get(
-            'max_seq_length', config['max_seq_length'])
-        task_params['data']['group_by_size'] = task_params['data'].get(
-            'group_by_size', config['group_by_size'])
-        task_params['data']['max_len'] = task_params['data'].get(
-            'max_len', config['max_len'])
-        task_params['data']['NPROC_PER_NODE'] = config['NPROC_PER_NODE']
+        task_params["data"]["batch_size"] = task_params["data"].get(
+            "batch_size", config["batch_size"])
+        task_params["data"]["max_tokens"] = task_params["data"].get(
+            "max_tokens", config["max_tokens"])
+        task_params["data"]["max_seq_length"] = task_params["data"].get(
+            "max_seq_length", config["max_seq_length"])
+        task_params["data"]["group_by_size"] = task_params["data"].get(
+            "group_by_size", config["group_by_size"])
+        task_params["data"]["max_len"] = task_params["data"].get(
+            "max_len", config["max_len"])
+        task_params["data"]["NPROC_PER_NODE"] = config["NPROC_PER_NODE"]
 
-        #target settings
-        task_params['target'] = task_params.get('target', config['target'])
-        task_params['target']['share_out_embedd'] = task_params['target'].get(
-            'share_out_embedd', config['share_out_embedd'])
-        task_params['target']['share_all_embedd'] = task_params['target'].get(
-            'share_all_embedd', config['share_all_embedd'])
+        # target settings
+        task_params["target"] = task_params.get("target", config["target"])
+        task_params["target"]["share_out_embedd"] = task_params["target"].get(
+            "share_out_embedd", config["share_out_embedd"])
+        task_params["target"]["share_all_embedd"] = task_params["target"].get(
+            "share_all_embedd", config["share_all_embedd"])
 
-        task_params['multi_gpu'] = config['multi_gpu']
-        task_params['clip_grad_norm'] = task_params.get(
-            'clip_grad_norm', config['clip_grad_norm'])
+        task_params["multi_gpu"] = config["multi_gpu"]
+        task_params["clip_grad_norm"] = task_params.get(
+            "clip_grad_norm", config["clip_grad_norm"])
 
-        #training settings
-        task_params['patience'] = task_params.get('patience',
-                                                  config['patience'])
+        # training settings
+        task_params["patience"] = task_params.get("patience",
+                                                  config["patience"])
 
-        task_params['sentenceRep'] = task_params.get('sentenceRep',
-                                                     config['sentenceRep'])
-        task_params['reset_optimizer'] = task_params.get(
-            'reset_optimizer', config['reset_optimizer'])
-        task_params['keep_last_checkpoint'] = task_params.get(
-            'keep_last_checkpoint', config['keep_last_checkpoint'])
-        task_params['save_interval'] = task_params.get('save_interval',
-                                                       config['save_interval'])
-        task_params['reload_checkpoint'] = task_params.get(
-            'reload_checkpoint', config['reload_checkpoint'])
+        task_params["sentenceRep"] = task_params.get("sentenceRep",
+                                                     config["sentenceRep"])
+        task_params["sentenceRep"]["max_seq_length"] = task_params["data"].get(
+            "max_seq_length", config["max_seq_length"])
 
-        task_params['NPROC_PER_NODE'] = config['NPROC_PER_NODE']
-        task_params['task_weight'] = task_params.get("task_weight", 1)
+        task_params["reset_optimizer"] = task_params.get(
+            "reset_optimizer", config["reset_optimizer"])
+        task_params["keep_last_checkpoint"] = task_params.get(
+            "keep_last_checkpoint", config["keep_last_checkpoint"])
+        task_params["save_interval"] = task_params.get("save_interval",
+                                                       config["save_interval"])
+        task_params["reload_checkpoint"] = task_params.get(
+            "reload_checkpoint", config["reload_checkpoint"])
 
-        #for classification
-        task_params['weight_training'] = task_params.get(
-            'weight_training', False)
+        task_params["NPROC_PER_NODE"] = config["NPROC_PER_NODE"]
+        task_params["task_weight"] = task_params.get("task_weight", 1)
 
-        #for seq2seq
-        task_params['label_smoothing'] = task_params.get(
-            'label_smoothing', config.get('label_smoothing'))
+        # for classification
+        task_params["weight_training"] = task_params.get(
+            "weight_training", False)
+
+        # for seq2seq
+        task_params["label_smoothing"] = task_params.get(
+            "label_smoothing", config.get("label_smoothing"))
 
 
-def Embedding(num_embeddings, embedding_dim, padding_idx=None):
+def get_embedding(num_embeddings, embedding_dim, padding_idx=None):
     m = nn.Embedding(num_embeddings, embedding_dim, padding_idx=padding_idx)
     nn.init.normal_(m.weight, mean=0, std=embedding_dim**-0.5)
     if padding_idx is not None:
@@ -124,7 +128,7 @@ def Embedding(num_embeddings, embedding_dim, padding_idx=None):
 
 
 def get_model(model):
-    if hasattr(model, 'module'):
+    if hasattr(model, "module"):
         return model.module
     else:
         return model
@@ -132,7 +136,7 @@ def get_model(model):
 
 def distributed_model(model, config):
     from torch.nn.parallel import DistributedDataParallel as DDP
-    local_rank = torch.distributed.get_rank() % config['NPROC_PER_NODE']
+    local_rank = torch.distributed.get_rank() % config["NPROC_PER_NODE"]
     torch.cuda.set_device(local_rank)
     device = torch.device("cuda", local_rank)
     model.to(device)
@@ -142,7 +146,17 @@ def distributed_model(model, config):
 
 
 def concate(x1, x2, lang1_id, lang2_id, pad_index, eos_index, reset_positions):
-
+    """
+    concate two sentences, including the language id, and positions ids
+    :param x1: token ids.  2-D tensor 
+    :param x2: token ids.  2-D tensor
+    :param lang1_id: 2-D tensor
+    :param lang2_id: 2-D tensor
+    :param pad_index: int
+    :param eos_index: int
+    :param reset_positions: if reset the positions for x1 and x2, specifially for TLM. boolen
+    :return: 2-D tensor
+    """
     length1 = (x1 != pad_index).sum(dim=-1)
     length2 = (x2 != pad_index).sum(dim=-1)
     length = length1 + length2
@@ -156,8 +170,8 @@ def concate(x1, x2, lang1_id, lang2_id, pad_index, eos_index, reset_positions):
     positions = torch.arange(max_len).unsqueeze(0).repeat(bsz, 1).to(x1.device)
 
     for i in range(bsz):
-        l1 = length1[
-            i] if reset_positions else length1 - 1  # reset_positions no eos in the first sentence
+        l1 = (length1[i] if reset_positions else length1 - 1
+              )  # reset_positions no eos in the first sentence
         x[i, l1:l1 + length2[i]].copy_(x2[i, :length2[i]])
         lang_ids[i, l1:l1 + length2[i]].copy_(lang2_id[i, :length2[i]])
         if reset_positions:
@@ -165,18 +179,29 @@ def concate(x1, x2, lang1_id, lang2_id, pad_index, eos_index, reset_positions):
     return x, lang_ids, positions
 
 
-def add_bert_mask(x,
-                  pad_index,
-                  mask_index,
-                  nwords,
-                  p_pred=0.15,
-                  p_mask=0.8,
-                  p_keep=0.1,
-                  p_rand=0.1,
-                  fix=False):
+def add_bert_mask(
+    x,
+    pad_index,
+    mask_index,
+    nwords,
+    p_pred=0.15,
+    p_mask=0.8,
+    p_keep=0.1,
+    p_rand=0.1,
+    fix=False,
+):
+    """
+    Add mask token like bert into the 2-D tensor
+    :param pad_index:  pad index. int
+    :param mask_index: mask index. int
+    :param nwords: vocabulary size. int
+    :param p_pred, p_mask, p_keep, p_rand: predict number, mask number, keep number and rand number. float
+    :param fix: if uses the random seed. boolen
+    :return: 2-D tensor
+    """
     rng = np.random
-    if fix: rng = np.random.RandomState(0)
-    _x = x
+    if fix:
+        rng = np.random.RandomState(0)
     bsz, seqlen = x.size()
     pred_mask = torch.from_numpy(
         (rng.rand(bsz, seqlen) <= p_pred).astype(np.uint8))
@@ -190,8 +215,8 @@ def add_bert_mask(x,
     probs = torch.multinomial(torch.tensor([p_keep, p_rand, p_mask]),
                               len(x_real),
                               replacement=True)
-    fused_x = x_real * (probs == 0).long() + x_rand * (
-        probs == 1).long() + x_mask * (probs == 2).long()
+    fused_x = (x_real * (probs == 0).long() + x_rand * (probs == 1).long() +
+               x_mask * (probs == 2).long())
     x = x.masked_scatter(pred_mask.bool(), fused_x)
 
     # print("Origin:", _x.tolist())
@@ -202,27 +227,33 @@ def add_bert_mask(x,
 
 def load_pretrain_embedding(file, embedding, vocab):
     print("Loading Glove Model")
-    f = open(file, 'r')
-    gloveModel = {}
-    for i, line in enumerate(f):
-        splitLines = line.split()
-        word = splitLines[0]
+    f = open(file, "r")
+    glovemodel = {}
+    for _, line in enumerate(f):
+        splitlines = line.split()
+        word = splitlines[0]
         try:
-            wordEmbedding = np.array(
-                [float(value) for value in splitLines[1:]])
-            gloveModel[word] = wordEmbedding
+            wordembedding = np.array(
+                [float(value) for value in splitlines[1:]])
+            glovemodel[word] = wordembedding
         except ValueError:
             pass
 
     for k, v in vocab.stoi.items():
-        if k in gloveModel:
-            embedding[v].copy_(torch.from_numpy(gloveModel[k]))
+        if k in glovemodel:
+            embedding[v].copy_(torch.from_numpy(glovemodel[k]))
     embedding = nn.Embedding.from_pretrained(embedding)
     print("loaded")
     return embedding
 
 
 def accuracy(y_true, y_pred):
+    """
+    Calculate accuracy
+    :param y_ture: golden truth.  list like [0, 1, 1, 2]
+    :param y_pred: prediction label.  list like [0, 1, 1, 2]
+    :return: dict
+    """
     assert len(y_true) == len(y_pred)
     hits = 0
     for i in range(len(y_true)):
@@ -232,6 +263,12 @@ def accuracy(y_true, y_pred):
 
 
 def f1_recall_precision(y_true, y_pred):
+    """
+    Calculate the f1, recall and precision
+    :param y_ture: golden truth.  list like [0, 1, 1, 2]
+    :param y_pred: prediction label.  list like [0, 1, 1, 2]
+    :return: dict
+    """
     labels = list(set(y_true))
     assert len(y_true) == len(y_pred)
     res = {}
@@ -252,15 +289,27 @@ def f1_recall_precision(y_true, y_pred):
         recall = tp / (tp + fn + 1e-10)
         precison = tp / (tp + fp + 1e-10)
         f1 = 2 * precison * recall / (recall + precison + 1e-10)
-        res[label] = {'f1': f1, 'recall': recall, 'precison': precison}
+        res[label] = {
+            "f1": f1,
+            "recall": recall,
+            "precison": precison,
+            "tp tn fn fp": f"{tp} {tn} {fn} {fp}",
+        }
     return res
 
 
 def batch_data(data, pad_index, eos_index):
+    """
+    Batch the data => [ [1,2,3,4], [1,1,1,2] ... ]
+    :param data: 2d list
+    :param pad_index: pad index
+    :param eos_index: eos index
+    :return: tensor, [bsz, len]
+    """
     lengths = [len(d) + 2 for d in data]
     tensor = torch.LongTensor(len(data), max(lengths)).fill_(pad_index)
     tensor[:, 0] = eos_index
-    for i, s in enumerate(data):
+    for i, _ in enumerate(data):
         if lengths[i] > 2:
             tensor[i, 1:lengths[i] - 1].copy_(torch.LongTensor(data[i]))
         tensor[i, lengths[i] - 1] = eos_index
@@ -268,6 +317,13 @@ def batch_data(data, pad_index, eos_index):
 
 
 def truncate(data, max_seq_length, pad_index, eos_index):
+    """
+    Truncate the max length of tensor into max_seq_length
+    :param data: tensor, [bsz, len]
+    :param pad_index: pad index
+    :param eos_index: eos index
+    :return: tensor, [bsz, len]
+    """
     lengths = (data != pad_index).sum(dim=-1)
     if lengths.max() > max_seq_length:
         data = data[:, :max_seq_length].clone()
@@ -278,6 +334,11 @@ def truncate(data, max_seq_length, pad_index, eos_index):
 
 
 def to_cuda(*array):
+    """
+    Move torch tensor to gpu device
+    :param array: A List of torch tensor 
+    :return: A List of torch tensor  on gpu device
+    """
     return [None if x is None else x.cuda() for x in array]
 
 
@@ -298,7 +359,7 @@ def subsequent_mask(size: int) -> Tensor:
     :param size: size of mask (2nd and 3rd dim)
     :return: Tensor with 0s and 1s of shape (1, size, size)
     """
-    mask = np.triu(np.ones((1, size, size)), k=1).astype('uint8')
+    mask = np.triu(np.ones((1, size, size)), k=1).astype("uint8")
     return torch.from_numpy(mask) == 0
 
 
@@ -308,7 +369,7 @@ def load_config(path="configs/default.yaml") -> dict:
     :param path: path to YAML configuration file
     :return: configuration dictionary
     """
-    with open(path, 'r') as ymlfile:
+    with open(path, "r") as ymlfile:
         cfg = yaml.safe_load(ymlfile)
     return cfg
 
@@ -351,19 +412,18 @@ def make_logger(log_dir: str = None, mode: str = "train") -> None:
     :return: joeynmt version number
     """
     logger = logging.getLogger("")  # root logger
-    #version = pkg_resources.require("joeynmt")[0].version
+    # version = pkg_resources.require("joeynmt")[0].version
 
     # add handlers only once.
     if len(logger.handlers) == 0:
         logger.setLevel(level=logging.DEBUG)
-        formatter = logging.Formatter(
-            '%(asctime)s  %(message)s')
+        formatter = logging.Formatter("%(asctime)s  %(message)s")
 
         if log_dir is not None:
             if os.path.exists(log_dir):
-                log_file = f'{log_dir}/{mode}.log'
+                log_file = f"{log_dir}/{mode}.log"
 
-                fh = logging.FileHandler(log_file, 'a')
+                fh = logging.FileHandler(log_file, "a")
                 fh.setLevel(level=logging.DEBUG)
                 logger.addHandler(fh)
                 fh.setFormatter(formatter)
@@ -373,9 +433,8 @@ def make_logger(log_dir: str = None, mode: str = "train") -> None:
         sh.setFormatter(formatter)
 
         logger.addHandler(sh)
-        logger.info(
-            "Welcome to TenTrans (Uniform Training & Decoding Platform) World !"
-        )
+        logger.info("Welcome to TenTrans \
+                (Uniform Training & Decoding Platform) World !")
 
 
 def log_config(cfg: dict, prefix: str = "cfg") -> None:
@@ -387,12 +446,12 @@ def log_config(cfg: dict, prefix: str = "cfg") -> None:
     logger = logging.getLogger(__name__)
     for k, v in cfg.items():
         if isinstance(v, dict):
-            p = '.'.join([prefix, k])
+            p = ".".join([prefix, k])
             log_config(v, prefix=p)
         else:
-            p = '.'.join([prefix, k])
+            p = ".".join([prefix, k])
             logger.info("{:50s} : {}".format(p, v))
-            #print("{:34s} : {}".format(p, v))
+            # print("{:34s} : {}".format(p, v))
 
 
 def symlink_update(target, link_name):

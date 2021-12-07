@@ -1,10 +1,10 @@
+import logging
+import numpy as np
+import math
+from src.utils.utility import batch_data
 import torch
 import torch.utils.data as data
-from src.utils.utility import batch_data
 from .dataset import BaseTextDataSet
-import math
-import numpy as np
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -12,19 +12,18 @@ logger = logging.getLogger(__name__)
 class StreamBinaryDataset(data.Dataset):
     def __init__(self, items, data_config, src_vocab):
 
-        assert items['word2id'] == src_vocab.stoi
-        self.pos = items['positions']
-        self.sents = items['sents']
-        self.lang = items['lang']
+        assert items["word2id"] == src_vocab.stoi
+        self.pos = items["positions"]
+        self.sents = items["sents"]
+        self.lang = items["lang"]
         self.lang_id = src_vocab.index(f"[[{self.lang}]]")
 
         self.pad_index = src_vocab.pad_index
         self.eos_index = src_vocab.eos_index
-        self.bptt = data_config.get('bptt', 256)
-        self.batch_size = data_config['batch_size']
+        self.bptt = data_config.get("bptt", 256)
+        self.batch_size = data_config["batch_size"]
 
         # This practice follows the XLM
-        # (https://github.com/facebookresearch/XLM/blob/0e1bde1ef24847b00dba4061ed59f8fb6578e486/xlm/data/dataset.py#L17).
         n_tokens = len(self.sents)
         bs = self.batch_size
         n_batches = math.ceil(n_tokens / (bs * self.bptt))
@@ -32,8 +31,9 @@ class StreamBinaryDataset(data.Dataset):
         buffer = np.zeros(t_size, dtype=self.sents.dtype) + self.eos_index
         buffer[t_size - n_tokens:] = self.sents
         buffer = buffer.reshape((bs, n_batches * self.bptt)).T
-        self.data = np.zeros((n_batches * self.bptt + 1, bs),
-                             dtype=self.sents.dtype) + self.eos_index
+        self.data = (np.zeros(
+            (n_batches * self.bptt + 1, bs), dtype=self.sents.dtype) +
+                     self.eos_index)
         self.data[1:] = buffer
         self.n_batches = n_batches
 
@@ -41,8 +41,10 @@ class StreamBinaryDataset(data.Dataset):
         return self.n_batches
 
     def __getitem__(self, idx):
-        return self.data[idx * self.bptt:(idx + 1) * self.bptt].astype(
-            np.int64), [self.lang_id] * self.batch_size
+        return (
+            self.data[idx * self.bptt:(idx + 1) * self.bptt].astype(np.int64),
+            [self.lang_id] * self.batch_size,
+        )
 
     def collate_fn(self, data):
         sents, langids = data[0][0], data[0][1]
@@ -54,10 +56,10 @@ class StreamBinaryDataset(data.Dataset):
 
 class MonolingualBinaryDataSet(data.Dataset):
     def __init__(self, items, data_config, src_vocab):
-        assert items['word2id'] == src_vocab.stoi
-        self.pos = items['positions']
-        self.sents = items['sents']
-        self.lang = items['lang']
+        assert items["word2id"] == src_vocab.stoi
+        self.pos = items["positions"]
+        self.sents = items["sents"]
+        self.lang = items["lang"]
         self.lang_id = src_vocab.index(f"[[{self.lang}]]")
         self.lengths = self.pos[:, 1] - self.pos[:, 0]
         self.pad_index = src_vocab.pad_index
@@ -85,7 +87,7 @@ class MonolingualTextDataSet(BaseTextDataSet):
 
         super().__init__(items, data_config, src_vocab)
         self.items = items
-        self.feature = data_config['feature']
+        self.feature = data_config["feature"]
         self.src_vocab = src_vocab
         self.max_seq_length = data_config.get("max_seq_length", 512)
         self.data_flow = self._build_process_flow()
@@ -98,8 +100,8 @@ class MonolingualTextDataSet(BaseTextDataSet):
             return self.src_vocab.index(f"[{lang}_embed]", no_unk=True)
 
         return {
-            'seq1': [self.src_vocab.encode],
-            'lang1': [lang_encode],
+            "seq1": [self.src_vocab.encode],
+            "lang1": [lang_encode],
         }
 
     def collate_fn(self, data):
@@ -108,7 +110,7 @@ class MonolingualTextDataSet(BaseTextDataSet):
             example = []
             for j in range(bsz):
                 example.append(data[j][i])
-            if feat.startswith('seq'):
+            if feat.startswith("seq"):
                 example = batch_data(example, self.pad_index, self.eos_index)
             else:
                 example = torch.tensor(example, dtype=torch.long)

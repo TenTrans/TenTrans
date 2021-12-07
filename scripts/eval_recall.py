@@ -31,7 +31,7 @@ def f1_recall_precision(y_true, y_pred):
         recall = tp / (tp + fn + 1e-10)
         precison = tp / (tp + fp + 1e-10)
         f1 = 2 * precison * recall / (recall + precison + 1e-10)
-        res[label] = {'f1': f1, 'recall': recall, 'precison': precison}
+        res[label] = {"f1": f1, "recall": recall, "precison": precison}
     return res
 
 

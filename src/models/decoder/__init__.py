@@ -1,8 +1,6 @@
 from .transformer_decoder import TransformerDecoder
 
-support_decoder ={
-    'transformer': TransformerDecoder
-}
+support_decoder = {"transformer": TransformerDecoder}
 
 
 # class Decoder:

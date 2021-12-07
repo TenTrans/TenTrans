@@ -1,8 +1,6 @@
-import torch
-import torch.utils.data as data
-from src.utils.utility import batch_data
 import logging
 import numpy as np
+import torch.utils.data as data
 
 logger = logging.getLogger(__name__)
 
@@ -15,12 +13,14 @@ class BaseTextDataSet(data.Dataset):
 
     def check_data(self):
         logger.info("checking data....")
-
+        index = list(self.items[0].content.keys()).index("seq1")
         for i, item in enumerate(self.items):
             item.apply(self.data_flow)
-            if i == 1: logger.info(item.process_content)
-            self.lengths.append(len(item.process_content[0]))
-
+            if i == 1:
+                logger.info(item.process_content)
+            if i % 100000 == 0:
+                logger.info(i)
+            self.lengths.append(len(item.process_content[index]))
         self.lengths = np.asarray(self.lengths)
 
     def __getitem__(self, index):

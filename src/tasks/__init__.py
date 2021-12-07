@@ -5,9 +5,9 @@ from .tlm_task import TLMTask
 from .unsup_mass_task import UnsuperMassTask
 
 task_builder = {
-    'mlm': MLMTask,
-    'classification': ClassificationTask,
-    'seq2seq': Seq2SeqTask,
-    'tlm': TLMTask,
-    'unsup_mass': UnsuperMassTask
+    "mlm": MLMTask,
+    "classification": ClassificationTask,
+    "seq2seq": Seq2SeqTask,
+    "tlm": TLMTask,
+    "unsup_mass": UnsuperMassTask,
 }

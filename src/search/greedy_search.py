@@ -1,15 +1,19 @@
-import torch
 import sys
 sys.path.append("..")
 from src.utils.utility import to_cuda
+import torch
 
 
-def greedy_search(model,
-                  src,
-                  lang1_id=None,
-                  lang2_id=None,
-                  max_len=200):
-
+def greedy_search(model, src, lang1_id=None, lang2_id=None, max_len=200):
+    """
+    greedy seach decoding
+    :param model: NMT model
+    :param src: token ids.  2-D tensor
+    :param lang1_id: 2-D tensor
+    :param lang2_id: 2-D tensor
+    :param max_len: the max decoding length of the target senteces. int
+    :return: predict tokens: 2-D tensor
+    """
     bsz = src.size(0)
     generated = torch.LongTensor(max_len,
                                  bsz).fill_(model.pad_index).to(src.device)
@@ -18,7 +22,7 @@ def greedy_search(model,
     generated[0] = model.bos_index
 
     model.eval()
-    encoder = model.sentenceRep
+    encoder = model.sentence_rep
     decoder = model.target[0]
 
     generated, src, unfinished = to_cuda(generated, src, unfinished)
@@ -34,7 +38,7 @@ def greedy_search(model,
                              cache=cache)
             tensor = tensor[:, -1, :]  # [bsz, dim]
             scores = decoder.output_layer(tensor)  # [bsz, nwords]
-            next_words = scores.topk(1, -1)[1].squeeze(1) 
+            next_words = scores.topk(1, -1)[1].squeeze(1)
             generated[cur_len] = next_words * unfinished + model.pad_index * (
                 1 - unfinished)
             unfinished.mul_((next_words.ne(model.eos_index)).long())

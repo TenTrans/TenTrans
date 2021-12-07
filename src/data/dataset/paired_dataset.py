@@ -1,10 +1,8 @@
+import logging
+import numpy as np
+from src.utils.utility import batch_data
 import torch
 import torch.utils.data as data
-from src.utils.utility import batch_data
-from .dataset import BaseTextDataSet
-import math
-import numpy as np
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -17,15 +15,15 @@ class PairedBinaryDataSet(data.Dataset):
                  tgt_vocab,
                  remove_long_sentence=False):
         items1, items2 = items
-        self.pos1 = items1['positions']
-        self.sents1 = items1['sents']
-        self.lang1 = items1['lang']
+        self.pos1 = items1["positions"]
+        self.sents1 = items1["sents"]
+        self.lang1 = items1["lang"]
         self.lang1_id = src_vocab.index(f"[[{self.lang1}]]")
         self.lengths1 = self.pos1[:, 1] - self.pos1[:, 0]
 
-        self.pos2 = items2['positions']
-        self.sents2 = items2['sents']
-        self.lang2 = items2['lang']
+        self.pos2 = items2["positions"]
+        self.sents2 = items2["sents"]
+        self.lang2 = items2["lang"]
         self.lang2_id = src_vocab.index(f"[[{self.lang2}]]")
         self.lengths2 = self.pos2[:, 1] - self.pos2[:, 0]
 
@@ -45,11 +43,11 @@ class PairedBinaryDataSet(data.Dataset):
         assert self.sents1.max() < len(src_vocab)
         assert self.sents2.max() < len(tgt_vocab)
 
-        assert items1['word2id'] == src_vocab.stoi
-        assert items2['word2id'] == tgt_vocab.stoi
+        assert items1["word2id"] == src_vocab.stoi
+        assert items2["word2id"] == tgt_vocab.stoi
 
         if remove_long_sentence:
-            self.remove_long_sentences(data_config.get('max_len', 100))
+            self.remove_long_sentences(data_config.get("max_len", 100))
         logger.info("Load %i sentences" % len(self.pos1))
 
     def remove_long_sentences(self, max_len):
@@ -71,9 +69,12 @@ class PairedBinaryDataSet(data.Dataset):
     def __getitem__(self, index):
         a1, b1 = self.pos1[index]
         a2, b2 = self.pos2[index]
-        return self.sents1[a1:b1].astype(
-            np.int64), self.lang1_id, self.sents2[a2:b2].astype(
-                np.int64), self.lang2_id
+        return (
+            self.sents1[a1:b1].astype(np.int64),
+            self.lang1_id,
+            self.sents2[a2:b2].astype(np.int64),
+            self.lang2_id,
+        )
 
     def collate_fn(self, data):
         bsz = len(data)

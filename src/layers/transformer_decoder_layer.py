@@ -8,17 +8,38 @@ class TransformerDecoderLayer(nn.Module):
     """
     Transformer decoder layer.
     Consists of self-attention, source-attention, and feed-forward.
+    Encoder layer block.
+    The main process is `dropout -> add residual -> layernorm`.
+    You can also `dropout -> layernorm -> add residual` by
+    using normalize_before=True
+    Args:
+       size: int
+       ff_size: int
+       num_heads: int
+       dropout: float
+       attention_dropout: float
+       normalize_before: boolen
+       activation: "gelu" or "relu",
+
+       when using bert-style transformer, gelu activattion
+       is suggestion.
+       gelu(x) = 0.5*x*(1+np.tanh(np.sqrt(2/np.pi)*(x+0.044715*np.power(x,3))))
+       when using transformer for machine tranlstion task,
+       relu is better.
     """
-    def __init__(self,
-                 size: int = 0,
-                 ff_size: int = 0,
-                 num_heads: int = 0,
-                 dropout: float = 0.1,
-                 attention_dropout: float = 0.1,
-                 normalize_before: bool = False):
+    def __init__(
+        self,
+        size: int = 0,
+        ff_size: int = 0,
+        num_heads: int = 0,
+        dropout: float = 0.1,
+        attention_dropout: float = 0.1,
+        normalize_before: bool = False,
+    ):
         """
         Represents a single Transformer decoder layer.
-        It attends to the source representation and the previous decoder states.
+        It attends to the source representation and
+        the previous decoder states.
         :param size: model dimensionality
         :param ff_size: size of the feed-forward intermediate layer
         :param num_heads: number of heads
@@ -43,12 +64,14 @@ class TransformerDecoderLayer(nn.Module):
         self.normalize_before = normalize_before
 
     # pylint: disable=arguments-differ
-    def forward(self,
-                x: Tensor = None,
-                memory: Tensor = None,
-                src_mask: Tensor = None,
-                trg_mask: Tensor = None,
-                cache=None) -> Tensor:
+    def forward(
+        self,
+        x: Tensor = None,
+        memory: Tensor = None,
+        src_mask: Tensor = None,
+        trg_mask: Tensor = None,
+        cache=None,
+    ) -> Tensor:
         """
         Forward pass of a single Transformer decoder layer.
         :param x: inputs
@@ -80,7 +103,7 @@ class TransformerDecoderLayer(nn.Module):
 
         return x
 
-    #@TODO
+    # @TODO
     def maybe_layer_norm(self,
                          layer_norm,
                          x,

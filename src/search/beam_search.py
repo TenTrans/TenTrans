@@ -1,7 +1,7 @@
-import torch
 import sys
+import torch
+
 sys.path.append("..")
-from src.utils.utility import to_cuda
 
 
 class BeamHypotheses(object):
@@ -32,7 +32,7 @@ class BeamHypotheses(object):
     def is_done(self, best_sum_logprobs):
         if len(self) < self.beam_size:
             return False
-        elif self.early_stop:  #do not update the hypo list even the score is better.
+        elif self.early_stop:  # do not update the hypo list even the score is better.
             return True
         else:
             cur_score = best_sum_logprobs / self.max_len**self.length_penalty
@@ -40,33 +40,47 @@ class BeamHypotheses(object):
             return ret
 
 
-def beam_search(model,
-                src,
-                lang1_id=None,
-                lang2_id=None,
-                max_len=None,
-                beam_size=5,
-                length_penalty=0.6,
-                early_stop=False):
-
+def beam_search(
+    model,
+    src,
+    lang1_id=None,
+    lang2_id=None,
+    max_len=None,
+    beam_size=5,
+    length_penalty=0.6,
+    early_stop=False,
+):
+    """
+    Beam seach decoding
+    :param model: NMT model
+    :param src: token ids.  2-D tensor
+    :param lang1_id: 2-D tensor
+    :param lang2_id: 2-D tensor
+    :param max_len: the max decoding length of the target senteces. int
+    :param beam_size: the width of beam size. int
+    :param length_penalty: float
+    :param early_stop: if stop early. boolen
+    :return: predict tokens: 2-D tensor
+    """
     bsz = src.size(0)
-    generated = torch.LongTensor(max_len.max(), bsz * beam_size).fill_(
-        model.pad_index).cuda()
+    generated = (torch.LongTensor(max_len.max(), bsz * beam_size).fill_(
+        model.pad_index).cuda())
     generated[0] = model.bos_index
 
     beam_scores = torch.FloatTensor(bsz, beam_size).fill_(0).cuda()
     beam_scores[:, 1:] = -1e9  # assume first word bos always from first beam
-    final_scores = beam_scores.clone()
     generated_hyps = [
-        BeamHypotheses(beam_size=beam_size,
-                       max_len=max_len[i].item(),
-                       length_penalty=length_penalty,
-                       early_stop=early_stop) for i in range(bsz)
+        BeamHypotheses(
+            beam_size=beam_size,
+            max_len=max_len[i].item(),
+            length_penalty=length_penalty,
+            early_stop=early_stop,
+        ) for i in range(bsz)
     ]
     max_len = max_len.max()
 
     model.eval()
-    encoder = model.sentenceRep
+    encoder = model.sentence_rep
     decoder = model.target[0]
     cache = {}
     with torch.no_grad():
@@ -75,10 +89,10 @@ def beam_search(model,
                                  lang_id=lang1_id)  # bsz x seqlen x dim
         dim = encoder_out.size(-1)
         src_mask = src != model.pad_index
-        src_mask = (src_mask.unsqueeze(1).repeat(1, beam_size, 1).view(
-            -1, src_mask.size(-1))).unsqueeze(1).cuda()
-        encoder_out = encoder_out.unsqueeze(1).repeat(1, beam_size, 1, 1).view(
-            bsz * beam_size, -1, dim)
+        src_mask = ((src_mask.unsqueeze(1).repeat(1, beam_size, 1).view(
+            -1, src_mask.size(-1))).unsqueeze(1).cuda())
+        encoder_out = (encoder_out.unsqueeze(1).repeat(
+            1, beam_size, 1, 1).view(bsz * beam_size, -1, dim))
 
         done = [False for _ in range(bsz)]
         while cur_len < max_len:
@@ -94,7 +108,7 @@ def beam_search(model,
             scores = scores.view(bsz, -1)  # [n, beam x nwords]
             next_scores, next_words = torch.topk(scores, beam_size * 2, dim=-1)
             n_words = decoder.n_words
-            next_batch_beam = []  #(score,  token_id,  batch_beam_idx)
+            next_batch_beam = []  # (score,  token_id,  batch_beam_idx)
 
             for sent_idx in range(bsz):
 

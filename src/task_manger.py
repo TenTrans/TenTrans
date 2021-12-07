@@ -2,11 +2,10 @@ from src.tasks import task_builder
 from src.optimizer.lr_scheduler_builder import lr_sheduler_builder
 from src.optimizer.optimizer_builder import optimizer_builder
 import logging
-import itertools
 import numpy as np
-import torch
 from torch.nn.utils import clip_grad_norm_
 from src.utils.utility import get_model
+
 try:
     from contextlib import nullcontext
 except ImportError:
@@ -21,27 +20,27 @@ class TaskManger:
         self.step = 0
         self.local_rank = local_rank
 
-        self.update_every_epoch = config['update_every_epoch']
-        self.save_interval = config['save_interval']
+        self.update_every_epoch = config["update_every_epoch"]
+        self.save_interval = config["save_interval"]
 
-        self.share_all_task_model = config['share_all_task_model']
+        self.share_all_task_model = config["share_all_task_model"]
         self.share_all_task_sentence_rep = config[
-            'share_all_task_sentence_rep']
+            "share_all_task_sentence_rep"]
 
-        self.epoch = config['epoch']
-        self.dump_dir = config['dumpdir']
+        self.epoch = config["epoch"]
+        self.dump_dir = config["dumpdir"]
 
-        self.log_interval = config['log_interval']
+        self.log_interval = config["log_interval"]
         self.accumulate_gradients = config["accumulate_gradients"]
         self.multi_task_mode = config["multi_task_mode"]
 
         self.tasks = self.build_tasks()
         self.tasks_set = {
-            f'{task.task_name}.{task.task_id}': task
+            f"{task.task_name}.{task.task_id}": task
             for task in self.tasks
         }
         self.log = {
-            f'{task.task_name}.{task.task_id}': []
+            f"{task.task_name}.{task.task_id}": []
             for task in self.tasks
         }
 
@@ -77,12 +76,14 @@ class TaskManger:
                 clip_grad_norm_(task.model.parameters(), task.clip_grad_norm)
             task.optimizer.step()
             task.optimizer.zero_grad()
-            if task.scheduler and task.scheduler_step_at == 'step':
+            if task.scheduler and task.scheduler_step_at == "step":
                 task.scheduler.step()
 
         elif self.accumulate_gradients > 1:
-            sync_context = task.model.no_sync if self.local_rank != None and self.step % self.accumulate_gradients != 0 and self.config[
-                'NPROC_PER_NODE'] > 1 else nullcontext
+            sync_context = (task.model.no_sync if self.local_rank is not None
+                            and self.step % self.accumulate_gradients != 0
+                            and self.config["NPROC_PER_NODE"] > 1 else
+                            nullcontext)
             with sync_context():
                 loss = loss / self.accumulate_gradients
                 loss.backward()
@@ -90,12 +91,13 @@ class TaskManger:
             if self.step % self.accumulate_gradients == 0:
                 task.optimizer.step()
                 task.optimizer.zero_grad()
-                if task.scheduler and task.scheduler_step_at == 'step':
+                if task.scheduler and task.scheduler_step_at == "step":
                     task.scheduler.step()
 
     def multi_task_optimize(self, task, loss, cur_idx, num_task):
         if cur_idx < num_task - 1:
-            sync_context = task.model.no_sync if self.local_rank != None else nullcontext
+            sync_context = (task.model.no_sync
+                            if self.local_rank is not None else nullcontext)
             with sync_context():
                 loss.backward()
         else:
@@ -103,11 +105,12 @@ class TaskManger:
 
     def is_stop(self):
         for task in self.tasks:
-            if self.local_rank == None or self.local_rank == 0:
+            if self.local_rank is None or self.local_rank == 0:
                 task.stop_training()
 
     def log_info(self, epoch, step):
-        if step % self.log_interval != 0: return
+        if step % self.log_interval != 0:
+            return
         log = {}
         for k, v in self.log.items():
             if len(v) != 0:
@@ -118,27 +121,27 @@ class TaskManger:
 
         s = f"epoch_{epoch} - step_{step}:"
         for k, v in log.items():
-            s = s + f" - {k} loss:{v:.2f}" + " - lr:{:.2e}".format(
-                self.tasks_set[k].optimizer.param_groups[0]['lr'])
+            s = (s + f" - {k} loss:{v:.2f}" + " - lr:{:.2e}".format(
+                self.tasks_set[k].optimizer.param_groups[0]["lr"]))
 
         logger.info(s)
 
     def build_tasks(self):
         model, rep, tasks = None, None, []
-        for i, (task_id,
-                task_params) in enumerate(self.config['tasks'].items()):
+        for _, (task_id,
+                task_params) in enumerate(self.config["tasks"].items()):
 
-            task_name = task_params['task_name']
+            task_name = task_params["task_name"]
             task = task_builder[task_name].build_task(task_id, task_params,
                                                       model, rep,
                                                       self.local_rank)
             if self.share_all_task_model:
-                model = get_model(task.model)
-
+                #model = get_model(task.model)
+                model = task.model
+                
             if self.share_all_task_sentence_rep:
                 m = get_model(task.model)
                 rep = m.sentenceRep
-
             tasks.append(task)
         return tasks
 
@@ -160,7 +163,7 @@ class TaskManger:
                 self.multi_task_optimize(task, loss, idx, len(tasks))
             else:
                 self.optimize(task, loss)
-            self.log[f'{task.task_name}.{task.task_id}'].append(loss)
+            self.log[f"{task.task_name}.{task.task_id}"].append(loss)
 
     def eval_step(self):
         for task in self.tasks:
@@ -173,8 +176,9 @@ class TaskManger:
                 task.stop_patience += 1
 
     def build_optimizer(self):
-        share_optimizer = self.config.get('optimizer', None)
-        if not share_optimizer: return None
+        share_optimizer = self.config.get("optimizer", None)
+        if not share_optimizer:
+            return None
 
         if self.share_all_task_model:
             parameters = self.tasks[0].model.parameters()
@@ -187,7 +191,8 @@ class TaskManger:
 
     def build_scheduler(self):
         share_scheduler = self.config.get("scheduling", False)
-        if not share_scheduler: return None, None
+        if not share_scheduler:
+            return None, None
         scheduler, scheduler_step_at = lr_sheduler_builder(
             self.config, self.optimizer)
         return scheduler, scheduler_step_at

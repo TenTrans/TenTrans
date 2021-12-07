@@ -1,17 +1,15 @@
-# from torchtext import vocab
-# from torchtext.data import Dataset
-from collections import Counter, defaultdict
-from typing import List
 import numpy as np
 import subprocess
+from typing import List
 
-UNK_WORD = '<unk>'
-BOS_WORD = '<s>'
-PAD_WORD = '<pad>'
+
+UNK_WORD = "<unk>"
+BOS_WORD = "<s>"
+PAD_WORD = "<pad>"
 
 
 class Vocabulary:
-    """ Vocabulary represents mapping between tokens and indices. """
+    """Vocabulary represents mapping between tokens and indices."""
     def __init__(self,
                  tokens: List[str] = None,
                  file: str = None,
@@ -41,43 +39,74 @@ class Vocabulary:
         self.unk_index = self.stoi[UNK_WORD]
         self.eos_index = self.bos_index
 
-        if max_vocab > 0: self.max_vocab(max_vocab)
+        if max_vocab > 0:
+            self.max_vocab(max_vocab)
 
     def max_vocab(self, num):
+        """
+        Reduce the vocab size
+        """
         self.itos = self.itos[:num]
         self.stoi = {self.itos[i]: i for i in range(len(self.itos))}
 
     def __len__(self):
+        """
+        return the size of vocab
+        """
         return len(self.stoi)
 
     def __getitem__(self, i):
+        """
+        get the vocab str by index
+        """
         return self.itos[i]
 
     def __contains__(self, w):
+        """
+        judge if the word is in the vocab
+        """ 
         return w in self.stoi
 
     def __eq__(self, y):
+        """
+        judge if the two vocab is in same
+        """
         if len(self) != len(y):
             return False
         return all(self.itos[i] == y[i] for i in range(len(y)))
 
     def index(self, word, no_unk=False):
+        """
+        get the vocab str by index
+        """
         if no_unk:
             return self.stoi[word]
         else:
             return self.stoi.get(word, self.unk_index)
 
     def encode(self, text):
+        """
+        given a str text,
+        split it into list and
+        convert it into index
+        """
         ids = [self.index(w) for w in text.split()]
         return ids
 
     def decode(self, token_ids, no_special=False):
+        """
+        given a index list,
+
+        convert it into the list of str word.
+        """
         if no_special:
-            txt = [self[idx] for idx in token_ids if self[idx] not in [BOS_WORD, PAD_WORD]]
+            txt = [
+                self[idx] for idx in token_ids
+                if self[idx] not in [BOS_WORD, PAD_WORD]
+            ]
         else:
             txt = [self[idx] for idx in token_ids]
         return txt
-    
 
     def _from_list(self, tokens: List[str] = None) -> None:
         """
@@ -125,22 +154,26 @@ class Vocabulary:
                 self.itos.append(t)
                 self.stoi[t] = new_index
 
-    def is_unk(self, token: str) -> bool:
-        """
-        Check whether a token is covered by the vocabulary
-        :param token:
-        :return: True if covered, False otherwise
-        """
-        return self.stoi[token] == DEFAULT_UNK_ID()
-
-    def __len__(self) -> int:
-        return len(self.itos)
-
     def binarize_data(self, path):
+        """
+        Given the file path,
+        Vocabulary binarize the text file.
+        
+        data: dict
+        positions: 2-D tensor. 
+                 : sents[positions[j][0]:positions[j][1]]
+                 is the binary data of the text[j]
+        data = {
+                    "positions": position,
+                    "sents": sents,
+                    "word2id": dict(self.stoi),
+                    "unk_words": unk_words,
+                }
+        """
         sents = []
         position = []
         unk_words = {}
-        f = open(path, 'r', encoding='utf8')
+        f = open(path, "r", encoding="utf8")
         for lineno, line in enumerate(f):
             if lineno % 100000 == 0:
                 print(lineno)
@@ -156,27 +189,41 @@ class Vocabulary:
             sents.append(self.eos_index)
 
         position = np.int64(position)
-        if len(self) <= 1<< 16:
+        if len(self) <= 1 << 16:
             sents = np.uint16(sents)
         else:
             sents = np.int32(sents)
 
         data = {
-            'positions': position,
-            'sents': sents,
-            'word2id': dict(self.stoi),
-            'unk_words':unk_words
+            "positions": position,
+            "sents": sents,
+            "word2id": dict(self.stoi),
+            "unk_words": unk_words,
         }
         return data
 
     def binarize_shard_data(self, path, shard_num):
-
-        f = open(path, 'r', encoding='utf8')
+        """
+        if the file is large, shard_num can be set to split the data in to multiple shard.
+        Given the file path,
+        Vocabulary binarize the text file.
+        
+        data: dict
+        positions: 2-D tensor. 
+                 : sents[positions[j][0]:positions[j][1]]
+                 is the binary data of the text[j]
+        data = {
+                    "positions": position,
+                    "sents": sents,
+                    "word2id": dict(self.stoi),
+                    "unk_words": unk_words,
+                }
+        """
+        f = open(path, "r", encoding="utf8")
         total_len = get_file_num(path)
         shard_len = total_len // shard_num
 
         shard_id = 0
-        datas = []
         sents = []
         position = []
         unk_words = {}
@@ -188,35 +235,36 @@ class Vocabulary:
             position.append([len(sents), len(sents) + len(ids)])
             sents.extend(ids)
             sents.append(self.eos_index)
-            
+
             for i in range(len(ids)):
                 if ids[i] == self.unk_index:
                     unk_words[line_[i]] = unk_words.get(line_[i], 0) + 1
 
             if lineno % 100000 == 0:
-                 print("process line ",lineno)           
-            
+                print("process line ", lineno)
+
             if (lineno + 1) % shard_len == 0:
                 position = np.int64(position)
-                if len(self) <= 1<< 16:
+                if len(self) <= 1 << 16:
                     sents = np.uint16(sents)
                 else:
                     sents = np.int32(sents)
                 data = {
-                    'positions': position,
-                    'sents': sents,
-                    'word2id': dict(self.stoi),
-                    'unk_words':unk_words
+                    "positions": position,
+                    "sents": sents,
+                    "word2id": dict(self.stoi),
+                    "unk_words": unk_words,
                 }
-     
+
                 sents = []
                 position = []
                 print(f"shard {shard_id} is finished")
                 shard_id += 1
                 yield data
 
+
 def get_file_num(fname):
-    p = subprocess.Popen(['wc', '-l', fname],
+    p = subprocess.Popen(["wc", "-l", fname],
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)
     result, err = p.communicate()

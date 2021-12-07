@@ -1,7 +1,5 @@
 import torch
-import torch.utils.data as data
 from src.utils.utility import batch_data
-import logging
 from .dataset import BaseTextDataSet
 
 
@@ -10,10 +8,10 @@ class ClassificationTextDataSet(BaseTextDataSet):
 
         super().__init__(items, data_config, src_vocab)
         self.items = items
-        self.feature = data_config['feature']
+        self.feature = data_config["feature"]
         self.src_vocab = src_vocab
         self.max_seq_length = data_config.get("max_seq_length", 512)
-        self.label12id = data_config['label12id']
+        self.label12id = data_config["label12id"]
         self.data_flow = self._build_process_flow()
         self.pad_index = src_vocab.pad_index
         self.eos_index = src_vocab.eos_index  # bos == eos
@@ -25,9 +23,9 @@ class ClassificationTextDataSet(BaseTextDataSet):
             return self.src_vocab.index(f"[[{lang}]]")
 
         return {
-            'seq1': [self.src_vocab.encode],
-            'lang1': [lang2id],
-            'label1': [self.label12id.__getitem__],
+            "seq1": [self.src_vocab.encode],
+            "lang1": [lang2id],
+            "label1": [self.label12id.__getitem__],
         }
 
     def collate_fn(self, data):
@@ -36,9 +34,9 @@ class ClassificationTextDataSet(BaseTextDataSet):
             example = []
             for j in range(bsz):
                 example.append(data[j][i])
-            if feat.startswith('seq'):
+            if feat.startswith("seq"):
                 example = batch_data(example, self.pad_index, self.eos_index)
             else:
                 example = torch.tensor(example, dtype=torch.long)
             batch.append(example)
-        return batch 
+        return batch

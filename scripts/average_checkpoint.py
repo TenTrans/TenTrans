@@ -1,8 +1,7 @@
-import torch
-import collections
-import sys
 import argparse
+import collections
 import os
+import torch
 
 
 def average_checkpint(inputs):
@@ -73,5 +72,6 @@ def main():
     state = average_checkpint(args.inputs)
     torch.save(state, args.output)
 
-
-main()
+if __name__ == '__main__':
+    main()
+    

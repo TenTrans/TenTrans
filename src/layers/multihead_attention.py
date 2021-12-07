@@ -1,14 +1,19 @@
+import itertools
 import math
 import torch
 import torch.nn as nn
 from torch import Tensor
-import itertools
 
 
 class MultiHeadedAttention(nn.Module):
     ID = itertools.count()
 
-    def __init__(self, num_heads: int, size: int, dropout: float = 0.1, ):
+    def __init__(
+        self,
+        num_heads: int,
+        size: int,
+        dropout: float = 0.1,
+    ):
         """
         Create a multi-headed attention layer.
         :param num_heads: the number of heads
@@ -32,7 +37,7 @@ class MultiHeadedAttention(nn.Module):
         self.softmax = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
         self.reset_parameters()
-        
+
     def forward(self,
                 k: Tensor,
                 v: Tensor,
@@ -54,23 +59,21 @@ class MultiHeadedAttention(nn.Module):
         q = self.q_layer(q)
         if cache is not None:
             if self.id in cache:
-                if k.size() == q.size() and q.size(1) == 1: # cross attention
+                if k.size() == q.size() and q.size(1) == 1:  # cross attention
                     k, v = self.k_layer(k), self.v_layer(v)
                     k_, v_ = cache[self.id]
-                    k = torch.cat([k_, k],
-                                  dim=2)  
-                    v = torch.cat([v_, v],
-                                  dim=2)  
-                else: # encoder attention
-                    k, v = cache[self.id]  
-            else: # cache the first computation
+                    k = torch.cat([k_, k], dim=2)
+                    v = torch.cat([v_, v], dim=2)
+                else:  # encoder attention
+                    k, v = cache[self.id]
+            else:  # cache the first computation
                 k, v = self.k_layer(k), self.v_layer(v)
             cache[self.id] = k, v
         else:
             k, v = self.k_layer(k), self.v_layer(v)
 
-
-        # reshape q, k, v for our computation to [batch_size, num_heads, seq_len, head_dim]
+        # reshape q, k, v for our computation to
+        # [batch_size, num_heads, seq_len, head_dim]
         k = k.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
         v = v.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
         q = q.view(batch_size, -1, num_heads, self.head_size).transpose(1, 2)
@@ -84,7 +87,7 @@ class MultiHeadedAttention(nn.Module):
         # we add a dimension for the heads to it below: [B, 1, 1, M]
         # ~ equals to (1-mask)
         if mask is not None:
-            scores = scores.masked_fill(~mask.unsqueeze(1), float('-inf'))
+            scores = scores.masked_fill(~mask.unsqueeze(1), float("-inf"))
 
         # apply attention dropout and compute context vectors.
         attention = self.softmax(scores)
@@ -93,14 +96,19 @@ class MultiHeadedAttention(nn.Module):
         # get context vector (select values with attention) and reshape
         # back to [B, M, D]
         context = torch.matmul(attention, v)
-        context = context.transpose(1, 2).contiguous().view(
-            batch_size, -1, num_heads * self.head_size)
+        context = (context.transpose(1, 2).contiguous().view(
+            batch_size, -1, num_heads * self.head_size))
         output = self.output_layer(context)
 
         return output
 
-
     def reset_parameters(self):
+        """
+        Fills the input Tensor
+        with values according to the method described in “Understanding the difficulty of training deep feedforward
+        neural networks” - Glorot, X.& Bengio, Y. (2010), using a uniform distribution. 
+        Values are scaled by the gain parameter No gradient will be recorded for this operation.
+        """
         nn.init.xavier_uniform_(self.k_layer.weight)
         nn.init.xavier_uniform_(self.q_layer.weight)
         nn.init.xavier_uniform_(self.v_layer.weight)

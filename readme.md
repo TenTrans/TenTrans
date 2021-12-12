@@ -158,7 +158,7 @@ optimizer: adam
 learning_rate: 0.0007
 learning_rate_warmup: 4000
 scheduling: warmupexponentialdecay
-max_tokens: 8000
+max_tokens: 16384  # src tokens + tgt tokens
 max_seq_length: 512
 save_intereval: 1
 weight_decay: 0
@@ -166,7 +166,7 @@ adam_betas: [0.9, 0.98]
 
 clip_grad_norm: 0
 label_smoothing: 0.1
-accumulate_gradients: 2
+accumulate_gradients: 1
 share_all_embedd: True
 patience: 10
 #share_out_embedd: False
@@ -210,13 +210,13 @@ tasks:
 
 3. 模型解码
 
-大约训练更新20万步之后（8张M40，大约耗时四十小时）， 我们可以使用TenTrans提供的脚本对平均最后几个模型来获得更好的效果。
+大约训练更新10万步之后（8张V100，大约10小时）， 我们可以使用TenTrans提供的脚本对平均最后几个模型来获得更好的效果。
 ```shell
 path=model_save_path
-python  scripts/average_checkpoint.py --inputs  $path/checkpoint_seq2seq_ldc_mt_40 \
-    $path/checkpoint_seq2seq_ldc_mt_39 $path/checkpoint_seq2seq_ldc_mt_38 \
-    $path/checkpoint_seq2seq_ldc_mt_37 $path/checkpoint_seq2seq_ldc_mt_36 \
-    $path/checkpoint_seq2seq_ldc_mt_35 $path/checkpoint_seq2seq_ldc_mt_34 \
+python  scripts/average_checkpoint.py --inputs  $path/checkpoint_seq2seq_ldc_mt_18 \
+    $path/checkpoint_seq2seq_ldc_mt_19 $path/checkpoint_seq2seq_ldc_mt_20 \
+    $path/checkpoint_seq2seq_ldc_mt_21 $path/checkpoint_seq2seq_ldc_mt_22 \
+    $path/checkpoint_seq2seq_ldc_mt_23  \
     --output $path/average.pt
 ```
 我们可以使用平均之后的模型进行翻译解码，

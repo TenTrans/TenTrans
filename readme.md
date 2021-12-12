@@ -239,9 +239,8 @@ perl ../scripts/multi-bleu.perl generate.ref < generate.sys
 | WMT14-ende | BLEU | 
 | ------ | ------ | 
 | Attention is all you need(beam=4) | 27.30 | 
-| TenTrans(beam=4, 8gpus, updates=200k, gradient_accu=1) | 27.54 | 
-| TenTrans(beam=4, 8gpus, updates=125k, gradient_accu=2) | 27.64 | 
-| TenTrans(beam=4, 24gpus, updates=90k, gradient_accu=1) | 27.67 |  
+| TenTrans(beam=4, 8gpus, updates=100k, gradient_accu=1) | 27.74 | 
+
 
 ### （三）文本分类
 

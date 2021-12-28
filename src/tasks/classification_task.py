@@ -102,16 +102,16 @@ class ClassificationTask(BaseTask):
 
         multi_gpu = True if hasattr(self.model, "module") else False
         optimizer = Adam(
-            self.model.sentenceRep.parameters()
-            if not multi_gpu else self.model.module.sentenceRep.parameters(),
+            self.model.sentence_rep.parameters()
+            if not multi_gpu else self.model.module.sentence_rep.parameters(),
             self.config["lr_e"],
         )
         optimizer = Adam(
             [
                 {
                     "params":
-                    self.model.sentenceRep.parameters() if not multi_gpu else
-                    self.model.module.sentenceRep.parameters(),
+                    self.model.sentence_rep.parameters() if not multi_gpu else
+                    self.model.module.sentence_rep.parameters(),
                     "lr":
                     self.config["lr_e"],
                 },

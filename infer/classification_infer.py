@@ -25,7 +25,7 @@ config = reloaded["config"]
 vocab = Vocabulary(file=args.vocab, max_vocab=args.max_vocab)
 
 sentence_rep = SentenceRepModel.build_model(config["sentenceRep"], vocab)
-model = ClassificationModel(config["target"], sentenceRep, vocab)
+model = ClassificationModel(config["target"], sentence_Rep, vocab)
 
 model.sentence_rep.load_state_dict(reloaded["model_sentenceRep"])
 model.target.load_state_dict(reloaded["model_target"])

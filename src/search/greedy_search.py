@@ -22,7 +22,7 @@ def greedy_search(model, src, lang1_id=None, lang2_id=None, max_len=200):
     generated[0] = model.bos_index
 
     model.eval()
-    encoder = model.sentence_rep
+    encoder = model.sentenceRep
     decoder = model.target[0]
 
     generated, src, unfinished = to_cuda(generated, src, unfinished)

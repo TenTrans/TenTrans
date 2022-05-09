@@ -1,6 +1,6 @@
-# 中文-民语跨语言迁移评测任务 (CMXT) 
+# 中文-民语跨语言迁移评测 (CMXT) 
 ### Chinese-Minority Cross-lingual Transfer Evalutaion (CMXT)
-
+[中文-民语跨语言迁移评测-CMXT官方Github](https://github.com/TenTrans/TenTrans/edit/master/examples/CMXT)
 ## 一、任务介绍
 ### 1、任务背景
 　近年来，基于BERT的预训练+Finetune的NLP范式已经成为业界主流做法，除了关注在单个语言上的预训练技术探索之外，**跨语言迁移技术**被学术界和工业界广泛关注。有以下几点原因：

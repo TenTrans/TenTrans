@@ -224,7 +224,8 @@
 </table>
 
 
-$$Precision = \frac{C_{11}}{\sum_{i=1}^{n}c_{1i}}$$
+$Precision = \frac{C_{11}}{\sum_{i=1}^{n}c_{1i}}$
+
 $$Recall = \frac{C_{11}}{\sum_{i=1}^{n}c_{i1}}$$
 $$F1=2*\frac{Precision * Recall}{Precision + Recall}$$
 $$macro-F1=\frac{1}{n}\sum_{i=1}^{n}F1-score_i$$

@@ -179,7 +179,7 @@
 ## 三、客观评价指标
 <span id="evaluation"></span>
 ### 任务1：跨语言话题分类
-**Macro-F1 作为评价指标**
+**Macro-F1 作为评价指标：分别计算出各个类别对应的F1值，然后取平均得到Macro-F1**
 
 <table>
     <tr>
@@ -223,25 +223,25 @@
     </tr>
 </table>
 
+![text](./Task1-evulation.png)
 
-$Precision = \frac{C_{11}}{\sum_{i=1}^{n}c_{1i}}$
-
-$$Recall = \frac{C_{11}}{\sum_{i=1}^{n}c_{i1}}$$
-$$F1=2*\frac{Precision * Recall}{Precision + Recall}$$
-$$macro-F1=\frac{1}{n}\sum_{i=1}^{n}F1-score_i$$
-其中，$F1-Score_i$是第$i$个类别的F1值
 ### 任务2：跨语言正文与标题匹配
 #### P@n:
  n个结果的准确率，P指的是Precision
-$$P@n=\frac{1}{n}\sum_{i=1}^{n}y_i$$
-其中，$y_i$=0,1分别表示第i个结果不相关、相关。对于测试集的每个case，P@n取平均值代表该系统的得分。
+ 
+　　　　　　　　　 ![formula](https://render.githubusercontent.com/render/math?math=$P@n=\frac{1}{n}\sum_{i=1}^{n}y_i$)
+ 
+
+其中，![formula](https://render.githubusercontent.com/render/math?math=$y_i$)=0,1分别表示第i个结果不相关、相关。对于测试集的每个case，P@n取平均值代表该系统的得分。
 
 #### MRR
 依照正确答案在检索结果中的排名来评估系统的性能
-$$MRR=\frac{1}{N}\sum_{i=1}^{N}\frac{1}{rank_i}$$
-其中，$rank_i$表示对于测试集的第$i$个正文case，对应的标题在整个候选列表中的排序位置。
 
-**$P@n$(n取1和5)和$MRR$共同作为评价指标。**
+　　　　　　　　　 ![formula](https://render.githubusercontent.com/render/math?math=$MRR=\frac{1}{N}\sum_{i=1}^{N}\frac{1}{rank_i}$)
+
+其中，![formula](https://render.githubusercontent.com/render/math?math=$rank_i$)表示对于测试集的第i个正文case，对应的标题在整个候选列表中的排序位置。
+
+**P@n(n取1和5)和MRR共同作为评价指标。**
 ### 任务3：跨语言短文检索
 <table>
     <tr>
@@ -285,12 +285,9 @@ $$MRR=\frac{1}{N}\sum_{i=1}^{N}\frac{1}{rank_i}$$
     </tr>
 </table>
 
-$$Accuracy=\frac{\sum_{i=0}^{n}C_{ii}}{\sum_{i=0}^n}$$
-$$Precision = \frac{C_{11}}{\sum_{i=1}^{n}c_{1i}}$$
-$$Recall = \frac{C_{11}}{\sum_{i=1}^{n}c_{i1}}$$
-$$F1=2*\frac{Precision * Recall}{Precision + Recall}$$
+![text2](./Task3-evaluation.png)
 
-**$Accuracy$和$F1$共同作为评价指标**
+**Accuracy和F1共同作为评价指标**
 ## 四、报名方式
 ## 五、比赛日程
 ## 六、结果提交方式

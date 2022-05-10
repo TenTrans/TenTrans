@@ -60,8 +60,8 @@
 ##### 1）数据样例
 每个语种都有一个文件，如维语，xtc_ug.txt有三列：
 
-    topic	topic_id	text	
-    话题类型	话题ID	内容
+    id	topic	topic_id	text	
+    id	话题类型	话题ID	内容
 
 话题类型—话题ID对应关系表
 
@@ -302,34 +302,42 @@
 - 2022年10月14日：评测研讨会
 ## 六、结果提交方式
 ### 任务1. 跨语言话题分类
-参赛者提交该任务文件命名为“CCL2022-CMXT-XTC-参赛团队名称.json”
+参赛者提交该任务文件命名为“CCL2022-CMXT-XTC-TestB-参赛团队名称.json”
 文件示例如下：
 
-    {"index": 0, "result": 0}
-    {"index": 1, "result": 14}
-    {"index": 2, "result": 1}
+    {"id": 0, "topic_id ": 0}
+    {"id": 1, "topic_id ": 14}
+    {"id": 2, "topic_id ": 1}
 
-其中，index代表
+其中，id表示文本的编号。topic_id为模型预测的结果。
 
 ### 任务2. 跨语言正文与标题匹配
-参赛者提交该任务文件命名为“CCL2022-CMXT-XCTM-参赛团队名称.json”
+参赛者提交该任务文件命名为“CCL2022-CMXT-XCTM-TestB-参赛团队名称.json”
 文件示例如下：
 
-    {"content_index": 0, "title_index": 204}
-    {"content_index": 1, "title_index": 14}
-    {"content_index": 2, "title_index": 822}
+    {"content_id": 204,  "title_id": 0}
+    {"content_id": 14, "title_id": 1}
+    {"content_id": 822, "title_id": 2}
 
-其中，title_index中的为content_index对应的标题的id
+其中，content_id为正文id，title_id为模型预测的结果。
 ### 任务3. 跨语言短文本检索
-参赛者提交该任务文件命名为“CCL2022-CMXT-XSTS-参赛团队名称.json.json”
+参赛者提交该任务文件命名为“CCL2022-CMXT-XSTS-TestB-参赛团队名称.json”
 文件示例如下：
 
-    {"minority_index": 0, "zh_index": 49}
-    {"minority_index": 1, "zh_index": 245}
-    {"minority_index": 2, "zh_index": 362}
-其中zh_index为minority_index对应的中文译文的id
+    {"query_id": 0, "candidate_id": 49}
+    {"query_id": 1, "candidate_id": 245}
+    {"query_id": 2, "candidate_id": 362}
+其中，query_id为小语种数据的id，candidate_id为模型预测的结果。
 
-将以上3个json文件压缩为“CCL2022-CMXT-参赛团队名称.zip” 并发送至bengiojiang@tencent.com
+将以上3个json文件打包压缩为“CCL2022-CMXT-TestB-参赛团队名称.zip，并发送至bengiojiang@tencent.com
+
+**上述为TestB的提交方式，也是最为赛事最终排名的唯一依据。**
+
+为了获取TestB需要先提交TestA的结果，TestA结果仅供参考，不作为排名依据。每个任务的TestA文件命名格式为”CCL2022-CMXT-XXX-TestA-参赛团队名称.json“，压缩包名为”CCL2022-CMXT-TestA-参赛团队名称.zip“。
+
+### 提交注意事项
+- 
+
 ## 七、赛事排名标准
 <span id="rank"></span>
 ### 子任务分数计算

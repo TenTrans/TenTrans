@@ -225,7 +225,8 @@
     </tr>
 </table>
 
-![text](./Task1-evulation.png)
+<img src="Task1-evaluation.png" alt="Your image title" width="320"/>
+
 
 ### 任务2：跨语言正文与标题匹配
 #### P@n:
@@ -287,7 +288,7 @@
     </tr>
 </table>
 
-![text2](./Task3-evaluation.png)
+<img src="Task3-evaluation.png" alt="Your image title" width="320"/>
 
 **Accuracy和F1共同作为评价指标**
 ## 四、报名方式

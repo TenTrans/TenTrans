@@ -60,7 +60,7 @@
 ##### 1）数据样例
 每个语种都有一个文件，如维语，xtc_ug.txt有三列：
 
-    topic	topic-id	text	
+    topic	topic_id	text	
     话题类型	话题ID	内容
 
 话题类型—话题ID对应关系表

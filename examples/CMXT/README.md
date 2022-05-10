@@ -349,9 +349,21 @@
 - 我们将三个任务的分数加权（权重为1/3）求和，得到参赛者最终的比赛得分。
 
 注意：如果参赛者没有提交某项任务的结果，那么参赛者在该任务上的得分为0分。
+
 ## 八、CMXT组织方
 腾讯信息安全部	小语种理解团队 胡博杰 (bojiehu@tencent.com)
 
 腾讯信息安全部	小语种理解团队 姜博建 (bengiojiang@tencent.com)
 
-北京交通大学	NLP实验室	
+腾讯信息安全部  小语种理解团队  张通 (zatozhang@tencent.com)
+
+北京交通大学	NLP实验室	郭佳华 (21120352@bjtu.edu.cn)
+
+北京交通大学    NLP实验室   李豫 (20112043@bjtu.edu.cn)
+
+中科院自动化所  自动化所智能技术与系统工程团队  于雅涵 (yuyahan2020@ia.ac.cn)
+
+**赛事联系方式：**
+bengiojiang@tencent.com **(主送)**
+hubojie1993@163.com (抄送)
+zatozhang@tencent.com (抄送)

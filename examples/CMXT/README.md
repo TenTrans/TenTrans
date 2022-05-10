@@ -58,7 +58,7 @@
 ### 2、任务标注数据
 #### 任务1：跨语言话题分类(XTC)
 ##### 1）数据样例
-每个语种都有一个文件，如维语，xtc_ug.txt有三列：
+每个语种都有一个文件，如维语，`xtc_ug.txt`有三列：
 
     id	topic	topic_id	text	
     id	话题类型	话题ID	内容
@@ -89,8 +89,8 @@
 
 #### 任务2：跨语言正文与标题匹配(XCTM)
 ##### 1）数据样例
-每个语种有三个文件，如中文，xctm_title_zh.txt、xctm_content_zh.txt、xctm_ids-map_zh.txt，分别是标题文件、正文文件、标题和正文id映射文件。
-以中文为例，xctm_title_zh.txt文件内容如下：
+每个语种有三个文件，如中文，`xctm_title_zh.txt`、`xctm_content_zh.txt`、`xctm_ids-map_zh.txt`，分别是标题文件、正文文件、标题和正文id映射文件。
+以中文为例，`xctm_title_zh.txt`文件内容如下：
 
 	
     title_id	title
@@ -99,7 +99,7 @@
     ...
     1000000	【大吉大利！今晚吃鸡！】03:45 英锦赛 沃尔索尔VS朴茨茅斯
 
-以中文为例，xctm_content_zh.txt文件内容如下：
+以中文为例，`xctm_content_zh.txt`文件内容如下：
 
 
     content_id	content
@@ -107,7 +107,7 @@
     ...
     1000000	每日趣闻C罗在这个赛季迟迟没有找回状态，各种对C罗不利的传闻也是满天飞，纷纷表示曾经不可一世的C罗现在年龄大了...
 
-以中文为例，xctm_ids-map_zh.txt文件内容如下：
+以中文为例，`xctm_ids-map_zh.txt`文件内容如下：
 
 
     content_id	title_id
@@ -136,8 +136,8 @@
 #### 任务3：跨语言短文检索(XSTS)
 
 ##### 1）数据样例
-每个非中文语种有三个文件，以藏语为例，xsts_query_bo.txt、xsts_candidates_bo.txt、xsts_ids-map_bo.txt，分别是请求文件、候选文件、请求和候选id映射文件。该任务是用非中文query去中文candidates里面检索语义相似的短文句子，**每一条query只有一个唯一中文答案**。
-以藏语dev为例，xsts_query_bo.txt文件内容如下：
+每个非中文语种有三个文件，以藏语为例，`xsts_query_bo.txt`、`xsts_candidates_bo.txt`、`xsts_ids-map_bo.txt`，分别是请求文件、候选文件、请求和候选id映射文件。该任务是用非中文query去中文candidates里面检索语义相似的短文句子，**每一条query只有一个唯一中文答案**。
+以藏语dev为例，`xsts_query_bo.txt`文件内容如下：
 
     query_id	query
     1	བཟོ་ཚོགས་རྩ་འཛུགས་ཀྱི་ལས་ཁུངས་མི་དགོས་པ་བཟོ་བ་དང་ཟླ་སྒྲིལ་གཏོང་བའམ་ལས་སྒྲུབ་སྡེ་ཁག་གཞན་དག་གི་ཁོངས་སུ་གཏོགས་པ་བཅས་ཀྱང་བྱས་མི་ཆོག།
@@ -145,7 +145,7 @@
     ...
     1000	འདིས་ང་ཚོའི་མཐོང་རྒྱ་ཡངས་པོར་བསྐྱེད་ཐུབ་པ་དང་སྔར་སོང་མེ་ལོང་བྱས་ནས་རྗེས་ལ་ཇི་ཡོང་ཤེས་རྟོགས་ཐུབ། 
 
-相应xsts_candidates_bo.txt文件内容如下：
+相应`xsts_candidates_bo.txt`文件内容如下：
 
     candidate_id	candidate
     ...
@@ -155,7 +155,7 @@
 	...
 	100000	这有助于我们开阔视野,鉴往知来。
 
-相应xsts_ids-map_bo.txt文件内容如下：
+相应`xsts_ids-map_bo.txt`文件内容如下：
 
     query_id	candidate_id
     1	958
@@ -306,7 +306,7 @@
 ## 六、结果提交方式
 ### 1、任务结果整理
 #### 任务1. 跨语言话题分类
-参赛者提交该任务文件命名为“CCL2022-CMXT-XTC-TestB-参赛团队名称.json”
+参赛者提交该任务文件命名为`CCL2022-CMXT-XTC-TestB-参赛团队名称.json`
 文件示例如下：
 
     {"id": 0, "topic_id ": 0}
@@ -316,7 +316,7 @@
 其中，id表示文本的编号。topic_id为模型预测的结果。
 
 #### 任务2. 跨语言正文与标题匹配
-参赛者提交该任务文件命名为“CCL2022-CMXT-XCTM-TestB-参赛团队名称.json”
+参赛者提交该任务文件命名为`CCL2022-CMXT-XCTM-TestB-参赛团队名称.json`
 文件示例如下：
 
     {"content_id": 204,  "title_id": 0}
@@ -325,7 +325,7 @@
 
 其中，content_id为正文id，title_id为模型预测的结果。
 #### 任务3. 跨语言短文本检索
-参赛者提交该任务文件命名为“CCL2022-CMXT-XSTS-TestB-参赛团队名称.json”
+参赛者提交该任务文件命名为`CCL2022-CMXT-XSTS-TestB-参赛团队名称.json`
 文件示例如下：
 
     {"query_id": 0, "candidate_id": 49}
@@ -335,11 +335,11 @@
 
 ### 2、提交的2个材料
 #### 1、邮箱提交材料
-将以上3个json文件打包压缩为“CCL2022-CMXT-TestB-参赛团队名称.zip，并发送至bengiojiang@tencent.com
+将以上3个json文件打包压缩为`CCL2022-CMXT-TestB-参赛团队名称.zip`，并发送至bengiojiang@tencent.com
 
 **上述为TestB的提交方式，也是最为赛事最终排名的唯一依据，最终提交仅需提交TestB结果即可**
 
-为了获取TestB需要先提交TestA的结果，TestA结果仅供参考，不作为排名依据。每个任务的TestA文件命名格式为”CCL2022-CMXT-XXX-TestA-参赛团队名称.json“，压缩包名为”CCL2022-CMXT-TestA-参赛团队名称.zip“。
+为了获取TestB需要先提交TestA的结果，TestA结果仅供参考，不作为排名依据。每个任务的TestA文件命名格式为`CCL2022-CMXT-XXX-TestA-参赛团队名称.json`，压缩包名为`CCL2022-CMXT-TestA-参赛团队名称.zip`。
 
 #### 2、提交结果表填写
 填写[CCL22-CMXT结果提交表](https://docs.qq.com/form/page/DUVhMS3NRbXVHc3Bl?create_type=2&from_page=doc_list_new_form&templateId=6z9bq8gcmprmpyapp7asqjobfo&u=4f32c7a97e784982ad137f3a7d85b5e0#/fill)

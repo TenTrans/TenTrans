@@ -58,8 +58,9 @@
 ### 2、任务标注数据
 #### 任务1：跨语言话题分类(XTC)
 ##### 1）数据样例
-每个语种有三列：
+每个语种都有一个文件，如维语，xtc_ug.txt有三列：
 
+    topic	topic-id	text	
     话题类型	话题ID	内容
 
 话题类型—话题ID对应关系表
@@ -88,28 +89,28 @@
 
 #### 任务2：跨语言正文与标题匹配(XCTM)
 ##### 1）数据样例
-每个语种有三个文件title.txt、content.txt、ids-map.txt，分别是标题文件、正文文件、标题和正文id映射文件。
-以中文为例，title.txt文件内容如下：
+每个语种有三个文件，如中文，xctm_title_zh.txt、xctm_content_zh.txt、xctm_ids-map_zh.txt，分别是标题文件、正文文件、标题和正文id映射文件。
+以中文为例，xctm_title_zh.txt文件内容如下：
 
 	
-    title-id	title内容
+    title_id	title
     1	白羊座的感情世界就是这样的
     2	让无数投资者担惊受怕的日子终于要来了
     ...
     1000000	【大吉大利！今晚吃鸡！】03:45 英锦赛 沃尔索尔VS朴茨茅斯
 
-以中文为例，content.txt文件内容如下：
+以中文为例，xctm_content_zh.txt文件内容如下：
 
 
-    content-id	content内容
+    content_id	content
     2	昨天是周五，原本是A股开市的日子，因为众所周知的原因，延迟到了下周一。我知道你们都在等这篇更新，我>自己也在等，最主要的原因是我想等港股开市看看反应...
     ...
     1000000	每日趣闻C罗在这个赛季迟迟没有找回状态，各种对C罗不利的传闻也是满天飞，纷纷表示曾经不可一世的C罗现在年龄大了...
 
-以中文为例，ids-map.txt文件内容如下：
+以中文为例，xctm_ids-map_zh.txt文件内容如下：
 
 
-    content-id	title-id
+    content_id	title_id
     2	2
     ...
     1000000	1000000
@@ -135,18 +136,18 @@
 #### 任务3：跨语言短文检索(XSTS)
 
 ##### 1）数据样例
-每个非中文语种有三个文件query.txt、candidates.txt、ids-map.txt，分别是请求文件、候选文件、请求和候选id映射文件。该任务是用非中文query去中文candidates里面检索语义相似的短文句子，**每一条query只有一个唯一中文答案**。
-以藏语dev为例，query.txt文件内容如下：
+每个非中文语种有三个文件，以藏语为例，xsts_query_bo.txt、xsts_candidates_bo.txt、xsts_ids-map_bo.txt，分别是请求文件、候选文件、请求和候选id映射文件。该任务是用非中文query去中文candidates里面检索语义相似的短文句子，**每一条query只有一个唯一中文答案**。
+以藏语dev为例，xsts_query_bo.txt文件内容如下：
 
-    query-id	query内容
+    query_id	query内容
     1	བཟོ་ཚོགས་རྩ་འཛུགས་ཀྱི་ལས་ཁུངས་མི་དགོས་པ་བཟོ་བ་དང་ཟླ་སྒྲིལ་གཏོང་བའམ་ལས་སྒྲུབ་སྡེ་ཁག་གཞན་དག་གི་ཁོངས་སུ་གཏོགས་པ་བཅས་ཀྱང་བྱས་མི་ཆོག།
     2	ཨ་རིའི་ལོ་རྒྱུས་ཐོག་གི་རྗེས་ལུས་ས་ཁུལ་དུ་གསར་སྤེལ་ཐེངས་གཉིས་པ་བྱེད་པའི་མཐོ་རླབས་འཕྱུར།
     ...
     1000	འདིས་ང་ཚོའི་མཐོང་རྒྱ་ཡངས་པོར་བསྐྱེད་ཐུབ་པ་དང་སྔར་སོང་མེ་ལོང་བྱས་ནས་རྗེས་ལ་ཇི་ཡོང་ཤེས་རྟོགས་ཐུབ། 
 
-相应candidates.txt文件内容如下：
+相应xsts_candidates_bo.txt文件内容如下：
 
-    candidate-id	candidate内容
+    candidate_id	candidate内容
     ...
     958	也不得把工会组织的机构撤销、合并或者归属其他工作部门。
     ...
@@ -154,9 +155,9 @@
 	...
 	100000	这有助于我们开阔视野,鉴往知来。
 
-相应ids-map.txt文件内容如下：
+相应xsts_ids-map_bo.txt文件内容如下：
 
-    query-id	candidate-id
+    query_id	candidate_id
     1	958
 	2	10038
     ...

@@ -229,7 +229,7 @@
 
 ### 任务2：跨语言正文与标题匹配
 #### P@n:
- n个结果的准确率，P指的是Precision
+ 前n个结果的准确率，P指的是Precision
  
 　　　　　　　　　 ![formula](https://render.githubusercontent.com/render/math?math=$P@n=\frac{1}{n}\sum_{i=1}^{n}y_i$)
  

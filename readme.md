@@ -280,7 +280,7 @@ tasks:
         src_vocab: vocab_en
         train_valid_test: [train.csv, dev.csv, test.csv]
         label1: [0, 1]
-        feature: [seq1, label1, lang1]
+        feature: [seq1, lang1, label1]
     lr_e: 0.000005  # encoder学习率
     lr_p: 0.000125  # target 学习率
     target:

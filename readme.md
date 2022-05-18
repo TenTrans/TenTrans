@@ -250,7 +250,7 @@ perl ../scripts/multi-bleu.perl generate.ref < generate.sys
 
 我们推荐使用文本格式进行文本分类的训练，因为这更轻量和快速。我们将SST2的数据处理为如下格式(见*sample_data* 文件夹):
 
-| seq1 |lang1 | label1 | lang1 |
+| seq1 |lang1 | label1 | 
 | :--- | :---: | ---: |
 | This is a positive sentence. |en| postive | 
 | This is a negtive sentence.| en|negtive | 

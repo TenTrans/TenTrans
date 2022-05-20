@@ -298,6 +298,12 @@ python -u classification_infer.py \
 python scripts/eval_recall.py  test.en.label predict.out.label
 ```
 
+## 开源协议
+此项目遵循MIT开源协议。 
+
+
+## 联系方式
+如果在使用本项目过程中出现问题或想要进一步的交流，可以联系Baijun Ji(begosu@foxmail.com; baijunji@tencent.com) 或Bojie Hu(bojiehu@tencent.com).
 
 
 

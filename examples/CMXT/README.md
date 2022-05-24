@@ -1,4 +1,4 @@
-# 中文-民语跨语言迁移评测 (CMXT) 
+# 跨语言迁移评测：中文到民族语言 (CMXT) 
 ### Chinese-Minority Cross-lingual Transfer Evalutaion (CMXT)
 [中文-民语跨语言迁移评测-CMXT官方Github](https://github.com/TenTrans/TenTrans/edit/master/examples/CMXT)
 ## 一、任务介绍
@@ -371,5 +371,5 @@
 
 **赛事联系方式：**
 bengiojiang@tencent.com **(主送)**
-hubojie1993@163.com (抄送)
+nlpbojiehu@163.com (抄送)
 zatozhang@tencent.com (抄送)

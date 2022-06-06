@@ -1,13 +1,18 @@
-- [项目介绍](#项目介绍)
-- [安装教程](#安装教程)
-- [快速上手](#快速上手)
-  - [（一）预训练模型](#一预训练模型)
-  - [（二）机器翻译](#二机器翻译)
-  - [（三）文本分类](#三文本分类)
+<!-- vscode-markdown-toc -->
+* 1. [项目介绍](#)
+* 2. [安装教程](#-1)
+* 3. [快速上手预训练模型](#-1)
+* 4. [更多任务](#-1)
+* 5. [开源协议](#-1)
+* 6. [联系方式](#-1)
 
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 
-
-## 项目介绍
+##  <a name=''></a>项目介绍
 TenTrans是一个灵活轻量的自然语言处理训练框架， 支持常见的NLP任务（包括自然语言理解、生成、预训练）。 TenTrans有以下特点:
 
 - 任务原子化： 用户可以任意组合各种NLP任务进行联合训练， 各任务之间的参数可以细粒度地共享。
@@ -30,16 +35,14 @@ TenTrans目前支持的NLP任务包括
 - Average checkpoints and interactive inference
 
 
-## 安装教程
+##   <a name='-1'></a>安装教程
 ```
 git clone git@github.com:TenTrans/TenTrans.git
 pip install -r requirements.txt 
 ```
 Tentrans是一个基于Pytorch的轻量级工具包，安装十分方便。
 
-## 快速上手
-
-### （一）预训练模型
+##   <a name='-1'></a>快速上手预训练模型
 TenTrans支持多种预训练模型，包括基于编码器的预训练（e.g. MLM）和基于seq2seq结构的生成式预训练方法（e.g. Mass）。 此外， Tentrans还支持大规模的多语言机器翻译预训练。
 
 我们将从最简单的MLM预训练开始，让您快速熟悉TenTrans的运行逻辑。
@@ -131,178 +134,16 @@ python -m torch.distributed.launch \
                 --nproc_per_node=$NPROC_PER_NODE main.py \
                 --config run/xlm.yaml --multi_gpu True
 ```
-### （二）机器翻译
 
-本节您将快速学会如何训练一个基于Transformer的神经机器翻译模型，我们以WMT14 英-德为例（[下载数据](https://drive.google.com/uc?export=download&id=0B_bZck-ksdkpM25jRUN2X2UxMm8)）。
+##   <a name='-1'></a>更多任务
+ - [文本分类（SST2）](examples/TASK/SST2.md) 
+ - [机器翻译（WMT14ENDE）](examples/TASK/WMTENDE.md)
 
-1. 数据处理
-
-与处理单语训练文件相同，您也需要对翻译的平行语料进行二进制化。
-
-```shell
-python process.py vocab.bpe.32000 train.bpe.de de
-python process.py vocab.bpe.32000 train.bpe.en en
-```
-
-2. 参数配置
-
-```yaml
-# base config
-langs: [en, de]
-epoch: 50
-update_every_epoch: 5000
-dumpdir: ./exp/tentrans/wmt14ende_template
-
-share_all_task_model: True
-optimizer: adam 
-learning_rate: 0.0007
-learning_rate_warmup: 4000
-scheduling: warmupexponentialdecay
-max_tokens: 16384  # src tokens + tgt tokens
-max_seq_length: 512
-save_intereval: 1
-weight_decay: 0
-adam_betas: [0.9, 0.98]
-
-clip_grad_norm: 0
-label_smoothing: 0.1
-accumulate_gradients: 1
-share_all_embedd: True
-patience: 10
-#share_out_embedd: False
-
-tasks:
-  wmtende_mt:
-    task_name: seq2seq
-    reload_checkpoint:
-    data:
-        data_folder:  /train_data/wmt16_ende/
-        src_vocab: vocab.bpe.32000
-        tgt_vocab: vocab.bpe.32000
-        train_valid_test: [train.bpe.en.pth:train.bpe.de.pth, valid.bpe.en.pth:valid.bpe.de.pth, test.bpe.en.pth:test.bpe.de.pth]
-        group_by_size: True
-        max_len: 200
-
-    sentenceRep:
-      type: transformer 
-      hidden_size: 512
-      ff_size: 2048
-      attention_dropout: 0.1
-      encoder_layers: 6
-      num_heads: 8
-      embedd_size: 512
-      dropout: 0.1
-      learned_pos: True
-      activation: relu
-
-    target:
-      type: transformer 
-      hidden_size: 512
-      ff_size: 2048
-      attention_dropout: 0.1
-      decoder_layers: 6
-      num_heads: 8
-      embedd_size: 512
-      dropout: 0.1
-      learned_pos: True
-      activation: relu
-```
-
-3. 模型解码
-
-大约训练更新10万步之后（8张V100，大约10小时）， 我们可以使用TenTrans提供的脚本对平均最后几个模型来获得更好的效果。
-```shell
-path=model_save_path
-python  scripts/average_checkpoint.py --inputs  $path/checkpoint_seq2seq_ldc_mt_18 \
-    $path/checkpoint_seq2seq_ldc_mt_19 $path/checkpoint_seq2seq_ldc_mt_20 \
-    $path/checkpoint_seq2seq_ldc_mt_21 $path/checkpoint_seq2seq_ldc_mt_22 \
-    $path/checkpoint_seq2seq_ldc_mt_23  \
-    --output $path/average.pt
-```
-我们可以使用平均之后的模型进行翻译解码，
-```shell
-python -u infer/translation_infer.py \
-        --src train_data/wmt16_ende/test.bpe.en \
-        --src_vocab train_data/wmt16_ende/vocab.bpe.32000 \
-        --tgt_vocab train_data/wmt16_ende/vocab.bpe.32000 \
-        --src_lang en \
-        --tgt_lang de --batch_size 50 --beam 4 --length_penalty 0.6 \
-        --model_path model_save_path/average.pt | \
-        grep "Target_" | cut -f2- -d " " | sed -r 's/(@@ )|(@@ ?$)//g' > predict.ende
-
-cat  train_data/wmt16_ende/test.tok.de |  perl -ple 's{(\S)-(\S)}{$1 ##AT##-##AT## $2}g' > generate.ref
-cat  predict.ende | perl -ple 's{(\S)-(\S)}{$1 ##AT##-##AT## $2}g' > generate.sys
-perl ../scripts/multi-bleu.perl generate.ref < generate.sys
-```
-4. 翻译结果
-
-| WMT14-ende | BLEU | 
-| ------ | ------ | 
-| Attention is all you need(beam=4) | 27.30 | 
-| TenTrans(beam=4, 8gpus, updates=100k, gradient_accu=1) | 27.74 | 
-
-
-### （三）文本分类
-
-您同样可以使用我们所提供的预训练模型来进行下游任务， 本节我们将以SST2任务为例， 让你快速上手使用预训练模型进行微调下游任务。
-
-1. 数据处理
-
-我们推荐使用文本格式进行文本分类的训练，因为这更轻量和快速。我们将SST2的数据处理为如下格式(见*sample_data* 文件夹):
-
-| seq1 |lang1 | label1 | 
-| :--- | :---: | ---: |
-| This is a positive sentence. |en| postive | 
-| This is a negtive sentence.| en|negtive | 
-| This is a  sentence.| en |unknow | 
-
-2. 参数配置
-
-```yaml
-# base config
-langs: [en]
-epoch: 200
-update_every_epoch: 1000
-share_all_task_model: False
-batch_size: 8 
-save_interval: 20
-dumpdir: ./dumpdir/sst2
-
-sentenceRep:
-  type: transformer
-  pretrain_rep: ../tentrans_pretrain/model_mlm2048.tt
-
-tasks:
-  sst2_en:
-    task_name: classification
-    data:
-        data_folder:  sample_data/sst2
-        src_vocab: vocab_en
-        train_valid_test: [train.csv, dev.csv, test.csv]
-        label1: [0, 1]
-        feature: [seq1, lang1, label1]
-    lr_e: 0.000005  # encoder学习率
-    lr_p: 0.000125  # target 学习率
-    target:
-      sentence_rep_dim: 2048
-      dropout: 0.1
-    weight_training: False # 是否采用数据平衡
-```
-3. 分类解码
-```shell
-python -u classification_infer.py \
-         --model model_path \
-         --vocab  sample_data/sst2/vocab_en \
-         --src test.txt \
-         --lang en --threhold 0.5  > predict.out.label
-python scripts/eval_recall.py  test.en.label predict.out.label
-```
-
-## 开源协议
+##   <a name='-1'></a>开源协议
 此项目遵循MIT开源协议
 
 
-## 联系方式
+##  <a name='-1'></a>联系方式
 如果在使用本项目过程中出现问题或想要进一步的交流，可以联系Baijun Ji(begosu@foxmail.com; baijunji@tencent.com) ，Bojie Hu(bojiehu@tencent.com)，Ambyera(ambyera@tencent.com）。
 
 

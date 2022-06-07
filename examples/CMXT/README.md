@@ -169,10 +169,10 @@
 
 |语种   | 标注数据  | 候选数据量| 下载链接  | 数据领域  |
 | :------------ | :------------ |  :------------ |:------------ | :------------ |
-| 维语(ug)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ug](https://share.weiyun.com/6aQGxJrl) | 新闻、口语|
-| 藏语(bo)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万| [cmxt_xsts_bo](https://share.weiyun.com/BO5ymxiJ)  |新闻、口语 |
+| 维语(ug)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ug](https://share.weiyun.com/w9QzY5KJ ) | 新闻、口语|
+| 藏语(bo)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万| [cmxt_xsts_bo](https://share.weiyun.com/WRwbMUfI)  |新闻、口语 |
 | 粤语(ct)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ct](https://share.weiyun.com/9JjtaFSe) | 新闻、口语|
-| 传统哈萨克语(kk)  | Dev-1k + TestA-1k + TestB-3k   | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_kk](https://share.weiyun.com/YYouEaPV)| 新闻、口语 |
+| 传统哈萨克语(kk)  | Dev-1k + TestA-1k + TestB-3k   | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_kk](https://share.weiyun.com/mYoe67k6)| 新闻、口语 |
 | 传统蒙古语(mn)  | Dev-1k + TestA-1k + TestB-3k   | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_mn](https://share.weiyun.com/phuj3v6f) | 新闻、口语|
 | 朝鲜语(ko)  | Dev-1k + TestA-1k + TestB-3k  | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ko](https://share.weiyun.com/hphBOmfn) | 新闻、口语  |
 | 英语(en)  |  Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万  | [cmxt_xsts_en](https://share.weiyun.com/8r6ZLggb)| 新闻、口语  |
@@ -299,12 +299,13 @@
 报名截止日期2022年8月16日00:00
 ## 五、比赛日程
 - **2022年5月10日-2022年8月15日：报名阶段 (NOW)**
-- 2022年5月20日：发布单语数据和平行语料(第一阶段)
-- 2022年6月1日：发布训练集、开发集、测试集A（第二阶段）
-- 2022年8月15日：发布无答案的测试集B(第三阶段)
-- 2022年8月20日：测试集B结果截止提交
-- 2022年9月5日：评测报告提交
-- 2022年9月15日：评测结果公布
+- 2022年5月25日：发布单语数据和平行语料(第一阶段) **——已发布**
+- ~~2022年6月1日：发布训练集、开发集、测试集A（第二阶段）~~
+- 2022年6月10日：发布训练集、开发集、测试集A（第二阶段）
+- 2022年9月1日：发布无答案的测试集B(第三阶段)
+- 2022年9月5日：测试集B结果截止提交
+- 2022年9月20日：评测报告提交
+- 2022年9月30日：评测结果公布
 - 2022年10月14日：评测研讨会
 ## 六、结果提交方式
 ### 1、任务结果整理

@@ -56,7 +56,7 @@
 | 朝汉  | 200万 | [cmxt22_ko2zh_bitext_200w](https://share.weiyun.com/SIh5kxCM)  |  腾讯民汉翻译朝汉机翻数据 |
 | 英汉 | -  |推荐数据 [WMT Corpus](https://statmt.org/wmt22/translation-task.html)  |  |
 
-说明：上述维、藏、粤、哈、蒙、朝语料暂时未发布(2022年5月25生效)，链接目前失效
+**下载密钥获取方式：** 同上
 ### 2、任务标注数据
 #### 任务1：跨语言话题分类(XTC)
 ##### 1）数据样例

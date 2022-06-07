@@ -33,16 +33,18 @@
 #### 单语数据（非受限）
 |语种   | 数据量  | 链接  | 备注  |
 | :------------ | :------------ | :------------ | :------------ |
-| 维语(ug)  | 20Gb  | [cmxt22_ug_mono_20g](https://link)  | 主要来源: 公众号、新闻语料|
-| 藏语(bo)  | 15Gb  | [cmxt22_bo_mono_15g](https://link)  | 主要来源: 公众号、新闻语料|
-| 粤语(ct)  | 3.2Gb  | [cmxt22_ct_mono_3.2g](https://link)  | 主要来源: 公众号、新闻语料|
-| 传统哈萨克语(kk)  | 800Mb  | [cmxt22_kk_mono_800m](https://link)  | 主要来源: 公众号、新闻语料  |
-| 传统蒙古语(mn)  | 4Gb  |[cmxt22_mn_mono_4g](https://link)  | 主要来源: 公众号、新闻语料  |
+| 维语(ug)  | 18GB  | [cmxt22_ug_mono_20g](https://share.weiyun.com/htMwWO18)  | 主要来源: 公众号、新闻语料|
+| 藏语(bo)  | 15GB  | [cmxt22_bo_mono_15g](https://share.weiyun.com/zhfXphD5)  | 主要来源: 公众号、新闻语料|
+| 粤语(ct)  | 2.0GB  | [cmxt22_ct_mono_3.2g](https://share.weiyun.com/5m6I8SMD)  | 主要来源: 公众号、新闻语料|
+| 传统哈萨克语(kk)  | 644MB  | [cmxt22_kk_mono_800m](https://share.weiyun.com/yrLO92ol)  | 主要来源: 公众号、新闻语料  |
+| 传统蒙古语(mn)  | 3GB  |[cmxt22_mn_mono_4g](https://share.weiyun.com/UjxBP9WS)  | 主要来源: 公众号、新闻语料  |
 | 朝鲜语(ko)  | -  | 推荐使用[CCNet](https://github.com/facebookresearch/cc_net)  |   |
 | 汉语(zh)  | -  |推荐数据[CLEUCorpus2020](https://github.com/CLUEbenchmark/CLUECorpus2020)  |   |
 | 英语(en)  |  - |  推荐数据[WMT Corpus](https://statmt.org/wmt22/translation-task.html)   |   |
 
-说明：上述维、藏、粤、哈、蒙语料暂时未发布(2022年5月25生效)，链接目前失效
+**下载密钥获取方式：**
+- CMXT评测期间：填写第四部分报名表，组织方发邮件告知
+- 非评测期间：Email bojiehu@tencent.com(主送) nlpbojiehu@163.com, zatozhang@tencent.com (抄送)，邮件主题：“申请下载CMXT数据”， 邮件正文：“注明具体申请哪些数据、用途、目前所在单位” 
 #### 平行语料（**受限**）
 |语种   | 数据量（行数）  | 链接  | 备注  |
 | :------------ | :------------ | :------------ | :------------ |

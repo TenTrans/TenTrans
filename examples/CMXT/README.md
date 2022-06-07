@@ -288,9 +288,9 @@
     </tr>
 </table>
 
-<img src="Task3.png" alt="Your image title" width="320"/>
+<img src="Task3.png" alt="Your image title" width="280"/>
 
-**Accuracy和F1共同作为评价指标**
+**Accuracy作为评价指标**
 ## 四、报名方式
 填写[CMXT参赛报名表](https://docs.qq.com/form/page/DUWJOU0hTWXhIZHNu?create_type=2&from_page=doc_list_new_form&templateId=6z9bq8gcmprmpyapp7asqjobfo&u=4f32c7a97e784982ad137f3a7d85b5e0#/fill)
 
@@ -310,9 +310,9 @@
 参赛者提交该任务文件命名为`CCL2022-CMXT-XTC-TestB-参赛团队名称.json`
 文件示例如下：
 
-    {"id": 0, "topic_id ": 0}
-    {"id": 1, "topic_id ": 14}
-    {"id": 2, "topic_id ": 1}
+    {"id": 1, "topic_id ": 1}
+    {"id": 2, "topic_id ": 14}
+    {"id": 3, "topic_id ": 2}
 
 其中，id表示文本的编号。topic_id为模型预测的结果。
 
@@ -320,18 +320,18 @@
 参赛者提交该任务文件命名为`CCL2022-CMXT-XCTM-TestB-参赛团队名称.json`
 文件示例如下：
 
-    {"content_id": 204,  "title_id": 0}
-    {"content_id": 14, "title_id": 1}
-    {"content_id": 822, "title_id": 2}
+    {"content_id": 204,  "title_id": 1}
+    {"content_id": 14, "title_id": 2}
+    {"content_id": 822, "title_id": 3}
 
 其中，content_id为正文id，title_id为模型预测的结果。
 #### 任务3. 跨语言短文本检索
 参赛者提交该任务文件命名为`CCL2022-CMXT-XSTS-TestB-参赛团队名称.json`
 文件示例如下：
 
-    {"query_id": 0, "candidate_id": 49}
-    {"query_id": 1, "candidate_id": 245}
-    {"query_id": 2, "candidate_id": 362}
+    {"query_id": 1, "candidate_id": 49}
+    {"query_id": 2, "candidate_id": 245}
+    {"query_id": 3, "candidate_id": 362}
 其中，query_id为小语种数据的id，candidate_id为模型预测的结果。
 
 ### 2、提交的2个材料
@@ -350,7 +350,7 @@
 ### 1、子任务分数计算
 - 任务1：计算Macro-F1作为该任务的得分。
 - 任务2：计算P@1、P@5、F1的平均值作为该任务的得分。
-- 任务3：计算Accuracy和F1的平均值作为该任务的得分。
+- 任务3：计算Accuracy作为该任务的得分。
 
 ### 2、最终排名标准
 我们将三个任务的分数加权（权重为1/3）求和，得到参赛者最终的比赛得分，得分越高，排名越靠前。

@@ -71,20 +71,19 @@
     0-政治、1-军事、2-法治、3-经济、4-教育、5-医学、6-宗教、7-文学、8-文艺、9-交通、10-体育、11-历史、12-地理、13-科学、14-日常、15-传媒、16-娱乐、17-美食、18-哲学、19-新闻报道、20-人物简介、21-科普、22-组织
 
 ##### 2）数据分布和下载
-|语种   | 标注数据  | 数据平均长度(字符)  | 数据来源  |
+|语种   | 标注数据  | 下载链接  | 数据来源  |
 | :------------ | :------------ | :------------ | :------------ |
-| 维语(ug)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()  | TODO | 维基百科、微信公众号|
-| 藏语(bo)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | TODO  |维基百科、微信公众号 |
-| 粤语(ct)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | TODO | 维基百科、微信公众号|
-| 传统哈萨克语(kk)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | TODO | 维基百科、微信公众号 |
-| 传统蒙古语(mn)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | TODO | 维基百科、微信公众号|
-| 朝鲜语(ko)  |[Dev-2k]() + [TestA-2k]() + [TestB-6k]()  | TODO | 维基百科、微信公众号  |
-| 英语(en)  |  [Dev-2k]() + [TestA-2k]() + [TestB-6k]() |  TODO | 维基百科、微信公众号  |
-| 汉语(zh)  | [Train-20w]() + [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | TODO |  维基百科、微信公众号 |
+| 维语(ug)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ug](https://share.weiyun.com/1dy62TMK) | 维基百科、微信公众号|
+| 藏语(bo)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_bo](https://share.weiyun.com/7RpaZARn)  |维基百科、微信公众号 |
+| 粤语(ct)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ct](https://share.weiyun.com/YfK4hk9O) | 维基百科、微信公众号|
+| 传统哈萨克语(kk)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_kk](https://share.weiyun.com/XAZDx0vC) | 维基百科、微信公众号 |
+| 传统蒙古语(mn)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_mn](https://share.weiyun.com/cxtPl5Yp) | 维基百科、微信公众号|
+| 朝鲜语(ko)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ko](https://share.weiyun.com/msMD33oA) | 维基百科、微信公众号  |
+| 英语(en)  |  Dev-2k + TestA-4k + TestB-4k |  [cmxt_xtc_en](https://share.weiyun.com/RIVgoadQ) | 维基百科、微信公众号  |
+| 汉语(zh)  | Train-19.2w + Dev-2k + TestA-4k + TestB-4k | [cmxt_xtc_zh](https://share.weiyun.com/jqgJcEXG) |  维基百科、微信公众号 |
 
-**打包下载：**[CMXT2022-Topic-Classification]()
-
-说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时，通过Email CMXT组织方获取
+说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
+**下载密钥获取方式：** 同上
 
 ##### 3）数据标注标准
 可参照[CMXT话题分类任务--数据标注标准](https://docs.qq.com/sheet/DUUdneHNJa1hlZlNs?u=4f32c7a97e784982ad137f3a7d85b5e0&tab=BB08J2)

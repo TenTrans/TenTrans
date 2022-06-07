@@ -68,19 +68,19 @@
 话题类型—话题ID对应关系表
 
 
-    0-政治、1-军事、2-法治、3-经济、4-教育、5-医学、6-宗教、7-文学、8-文艺、9-交通、10-体育、11-历史、12-地理、13-科学、14-日常、15-传媒、16-娱乐、17-美食、18-哲学、19-新闻报道、20-人物简介、21-科普、22-组织
+    1-政治、2-军事、3-法治、4-经济、5-教育、6-医学、7-宗教、8-文学、9-文艺、10-交通、11-体育、12-历史、13-地理、14-科学、15-日常、16-传媒、17-娱乐、18-美食、19-哲学、20-新闻报道、21-人物简介、22-科普、23-组织
 
 ##### 2）数据分布和下载
 |语种   | 标注数据  | 下载链接  | 数据来源  |
 | :------------ | :------------ | :------------ | :------------ |
-| 维语(ug)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ug](https://share.weiyun.com/1dy62TMK) | 维基百科、微信公众号|
-| 藏语(bo)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_bo](https://share.weiyun.com/7RpaZARn)  |维基百科、微信公众号 |
-| 粤语(ct)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ct](https://share.weiyun.com/YfK4hk9O) | 维基百科、微信公众号|
-| 传统哈萨克语(kk)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_kk](https://share.weiyun.com/XAZDx0vC) | 维基百科、微信公众号 |
-| 传统蒙古语(mn)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_mn](https://share.weiyun.com/cxtPl5Yp) | 维基百科、微信公众号|
-| 朝鲜语(ko)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ko](https://share.weiyun.com/msMD33oA) | 维基百科、微信公众号  |
-| 英语(en)  |  Dev-2k + TestA-4k + TestB-4k |  [cmxt_xtc_en](https://share.weiyun.com/RIVgoadQ) | 维基百科、微信公众号  |
-| 汉语(zh)  | Train-19.2w + Dev-2k + TestA-4k + TestB-4k | [cmxt_xtc_zh](https://share.weiyun.com/jqgJcEXG) |  维基百科、微信公众号 |
+| 维语(ug)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ug](https://share.weiyun.com/SmZHIzoI) | 维基百科、微信公众号|
+| 藏语(bo)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_bo](https://share.weiyun.com/MZINSc55)  |维基百科、微信公众号 |
+| 粤语(ct)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ct](https://share.weiyun.com/kPgXZTtr) | 维基百科、微信公众号|
+| 传统哈萨克语(kk)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_kk](https://share.weiyun.com/fPTAMYOQ) | 维基百科、微信公众号 |
+| 传统蒙古语(mn)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_mn](https://share.weiyun.com/a9mvbF7O) | 维基百科、微信公众号|
+| 朝鲜语(ko)  | Dev-2k + TestA-4k + TestB-4k  | [cmxt_xtc_ko](https://share.weiyun.com/GPU0sL53) | 维基百科、微信公众号  |
+| 英语(en)  |  Dev-2k + TestA-4k + TestB-4k |  [cmxt_xtc_en](https://share.weiyun.com/SwuWZw6n) | 维基百科、微信公众号  |
+| 汉语(zh)  | Train-19.2w + Dev-2k + TestA-4k + TestB-4k | [cmxt_xtc_zh](https://share.weiyun.com/AdVx6aMf) |  维基百科、微信公众号 |
 
 说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
 

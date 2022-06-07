@@ -288,7 +288,7 @@
     </tr>
 </table>
 
-<img src="Task3-evaluation.png" alt="Your image title" width="320"/>
+<img src="Task3.png" alt="Your image title" width="320"/>
 
 **Accuracy和F1共同作为评价指标**
 ## 四、报名方式

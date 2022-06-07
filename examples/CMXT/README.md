@@ -33,11 +33,11 @@
 #### 单语数据（非受限）
 |语种   | 数据量  | 链接  | 备注  |
 | :------------ | :------------ | :------------ | :------------ |
-| 维语(ug)  | 18GB  | [cmxt22_ug_mono_20g](https://share.weiyun.com/htMwWO18)  | 主要来源: 公众号、新闻语料|
+| 维语(ug)  | 18GB  | [cmxt22_ug_mono_218g](https://share.weiyun.com/htMwWO18)  | 主要来源: 公众号、新闻语料|
 | 藏语(bo)  | 15GB  | [cmxt22_bo_mono_15g](https://share.weiyun.com/zhfXphD5)  | 主要来源: 公众号、新闻语料|
-| 粤语(ct)  | 2.0GB  | [cmxt22_ct_mono_3.2g](https://share.weiyun.com/5m6I8SMD)  | 主要来源: 公众号、新闻语料|
-| 传统哈萨克语(kk)  | 644MB  | [cmxt22_kk_mono_800m](https://share.weiyun.com/yrLO92ol)  | 主要来源: 公众号、新闻语料  |
-| 传统蒙古语(mn)  | 3GB  |[cmxt22_mn_mono_4g](https://share.weiyun.com/UjxBP9WS)  | 主要来源: 公众号、新闻语料  |
+| 粤语(ct)  | 2.0GB  | [cmxt22_ct_mono_2.0g](https://share.weiyun.com/5m6I8SMD)  | 主要来源: 公众号、新闻语料|
+| 传统哈萨克语(kk)  | 644MB  | [cmxt22_kk_mono_644m](https://share.weiyun.com/yrLO92ol)  | 主要来源: 公众号、新闻语料  |
+| 传统蒙古语(mn)  | 3GB  |[cmxt22_mn_mono_3g](https://share.weiyun.com/UjxBP9WS)  | 主要来源: 公众号、新闻语料  |
 | 朝鲜语(ko)  | -  | 推荐使用[CCNet](https://github.com/facebookresearch/cc_net)  |   |
 | 汉语(zh)  | -  |推荐数据[CLEUCorpus2020](https://github.com/CLUEbenchmark/CLUECorpus2020)  |   |
 | 英语(en)  |  - |  推荐数据[WMT Corpus](https://statmt.org/wmt22/translation-task.html)   |   |
@@ -48,12 +48,12 @@
 #### 平行语料（**受限**）
 |语种   | 数据量（行数）  | 链接  | 备注  |
 | :------------ | :------------ | :------------ | :------------ |
-| 维汉  | 200万  | [cmxt22_ug2zh_bitext_200w](https://link)  | 腾讯民汉翻译维汉机翻数据|
-| 藏汉  | 200万  | [cmxt22_bo2zh_bitext_200w](https://link)   | 腾讯民汉翻译藏汉机翻数据 |
-| 粤汉  | 200万  | [cmxt22_ct2zh_bitext_200w](https://link)   | 腾讯民汉翻译粤汉机翻数据 |
-| 哈汉  | 200万  | [cmxt22_kk2zh_bitext_200w](https://link)   | 腾讯民汉翻译哈汉机翻数据|
-| 蒙汉  | 200万  |[cmxt22_mn2zh_bitext_200w](https://link)    | 腾讯民汉翻译蒙汉机翻数据 |
-| 朝汉  | 200万 | [cmxt22_ko2zh_bitext_200w](https://link)  |  腾讯民汉翻译朝汉机翻数据 |
+| 维汉  | 200万  | [cmxt22_ug2zh_bitext_200w](https://share.weiyun.com/mgS1w6Qm)  | 腾讯民汉翻译维汉机翻数据|
+| 藏汉  | 200万  | [cmxt22_bo2zh_bitext_200w](https://share.weiyun.com/01EnWoxw)   | 腾讯民汉翻译藏汉机翻数据 |
+| 粤汉  | 200万  | [cmxt22_ct2zh_bitext_200w](https://share.weiyun.com/iDgsOom2)   | 腾讯民汉翻译粤汉机翻数据 |
+| 哈汉  | 200万  | [cmxt22_kk2zh_bitext_200w](https://share.weiyun.com/Ir3CEXw5)   | 腾讯民汉翻译哈汉机翻数据|
+| 蒙汉  | 200万  |[cmxt22_mn2zh_bitext_200w](https://share.weiyun.com/3uyH0ety)    | 腾讯民汉翻译蒙汉机翻数据 |
+| 朝汉  | 200万 | [cmxt22_ko2zh_bitext_200w](https://share.weiyun.com/SIh5kxCM)  |  腾讯民汉翻译朝汉机翻数据 |
 | 英汉 | -  |推荐数据 [WMT Corpus](https://statmt.org/wmt22/translation-task.html)  |  |
 
 说明：上述维、藏、粤、哈、蒙、朝语料暂时未发布(2022年5月25生效)，链接目前失效

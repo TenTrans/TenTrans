@@ -83,6 +83,7 @@
 | 汉语(zh)  | Train-19.2w + Dev-2k + TestA-4k + TestB-4k | [cmxt_xtc_zh](https://share.weiyun.com/jqgJcEXG) |  维基百科、微信公众号 |
 
 说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
+
 **下载密钥获取方式：** 同上
 
 ##### 3）数据标注标准
@@ -166,19 +167,20 @@
 
 ##### 2）数据分布和下载
 
-|语种   | 标注数据  | 数据量| 数据平均长度(字符)  | 数据领域  |
+|语种   | 标注数据  | 候选数据量| 下载链接  | 数据领域  |
 | :------------ | :------------ |  :------------ |:------------ | :------------ |
-| 维语(ug)  | [Dev-1k]() + [TestA-1k]() + [TestB-3k]()  | 候选句Dev、TestA 10万；TestB 30万 |TODO | 新闻、口语|
-| 藏语(bo)  | [Dev-1k]() + [TestA-1k]() + [TestB-3k]()   | 候选句Dev、TestA 10万；TestB 30万|TODO  |新闻、口语 |
-| 粤语(ct)  | [Dev-1k]() + [TestA-1k]() + [TestB-3k]()   | 候选句Dev、TestA 10万；TestB 30万 |TODO | 新闻、口语|
-| 传统哈萨克语(kk)  | [Dev-1k]() + [TestA-1k]() + [TestB-3k]()   | 候选句Dev、TestA 10万；TestB 30万 |TODO | 新闻、口语 |
-| 传统蒙古语(mn)  | [Dev-1k]() + [TestA-1k]() + [TestB-3k]()   | 候选句Dev、TestA 10万；TestB 30万 |TODO | 新闻、口语|
-| 朝鲜语(ko)  |[Dev-1k]() + [TestA-1k]() + [TestB-3k]()  | 候选句Dev、TestA 10万；TestB 30万 |TODO | 新闻、口语  |
-| 英语(en)  |  [Dev-1k]() + [TestA-1k]() + [TestB-3k]() | 候选句Dev、TestA 10万；TestB 30万  |TODO | 新闻、口语  |
+| 维语(ug)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ug](https://share.weiyun.com/6aQGxJrl) | 新闻、口语|
+| 藏语(bo)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万| [cmxt_xsts_bo](https://share.weiyun.com/BO5ymxiJ)  |新闻、口语 |
+| 粤语(ct)  | Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ct](https://share.weiyun.com/9JjtaFSe) | 新闻、口语|
+| 传统哈萨克语(kk)  | Dev-1k + TestA-1k + TestB-3k   | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_kk](https://share.weiyun.com/YYouEaPV)| 新闻、口语 |
+| 传统蒙古语(mn)  | Dev-1k + TestA-1k + TestB-3k   | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_mn](https://share.weiyun.com/phuj3v6f) | 新闻、口语|
+| 朝鲜语(ko)  | Dev-1k + TestA-1k + TestB-3k  | 候选句Dev、TestA 10万；TestB 30万 | [cmxt_xsts_ko](https://share.weiyun.com/hphBOmfn) | 新闻、口语  |
+| 英语(en)  |  Dev-1k + TestA-1k + TestB-3k | 候选句Dev、TestA 10万；TestB 30万  | [cmxt_xsts_en](https://share.weiyun.com/8r6ZLggb)| 新闻、口语  |
 
-**打包下载：**[CMXT2022-Short-Text-Searching]()
+说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
 
-说明：第2列注明的量级为query的量级；上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时，通过Email CMXT组织方获取
+**下载密钥获取方式：** 同上
+
 ## 三、客观评价指标
 <span id="evaluation"></span>
 ### 任务1：跨语言话题分类

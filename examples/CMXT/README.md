@@ -288,7 +288,7 @@
     </tr>
 </table>
 
-<img src="Task3.png" alt="Your image title" width="280"/>
+<img src="Task3.png" alt="Your image title" width="250"/>
 
 **Accuracy作为评价指标**
 ## 四、报名方式

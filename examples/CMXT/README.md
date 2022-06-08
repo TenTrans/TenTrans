@@ -116,27 +116,36 @@
     2	2
     ...
     1000000	1000000
+    
+训练集 `xctm_train_zh.txt`文件内容如下：
+
+
+    title	content
+    赵北口音乐会的由来	赵北口音乐会的由来以音乐的形式聚会民众...	
+    ...
+    咪睡觉的地方若跟往常不同，可能与这4点有关，猫床别有太多毛	猫咪是“念旧”的，它们一般不会选择置换自己的猫碗...
+    
+    
 **说明: title和content的数量并非一定一致，小语种的候选title量级远大于content的量级，但是每一个正文在标题候选里只有一个对应标题答案。**
 
 ##### 2）数据分布和下载
 训练集、开发集、测试集A/B数据分布如下所示
 
-|语种   | 标注数据  | 数据量| 数据平均长度(字符)  | 数据来源  |
+|语种   | 标注数据  | 候选标题数据量| 下载链接  | 数据来源  |
 | :------------ | :------------ |  :------------ |:------------ | :------------ |
-| 维语(ug)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()  | 标题候选Dev、TestA 2万；TestB 5万 |TODO | 维基百科、微信公众号|
-| 藏语(bo)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | 标题候选Dev、TestA 2万；TestB 5万 |TODO  |维基百科、微信公众号 |
-| 粤语(ct)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | 标题候选Dev、TestA 2万；TestB 5万 |TODO | 维基百科、微信公众号|
-| 传统哈萨克语(kk)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | 标题候选Dev、TestA 2万；TestB 5万 |TODO | 维基百科、微信公众号 |
-| 传统蒙古语(mn)  | [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | 标题候选Dev、TestA 2万；TestB 5万 |TODO | 维基百科、微信公众号|
-| 朝鲜语(ko)  |[Dev-2k]() + [TestA-2k]() + [TestB-6k]()  | 标题候选Dev、TestA 2万；TestB 5万 |TODO | 维基百科、微信公众号  |
-| 英语(en)  |  [Dev-2k]() + [TestA-2k]() + [TestB-6k]() | 标题候选Dev、TestA 2万；TestB 5万  |TODO | 维基百科、微信公众号  |
-| 汉语(zh)  | [Train-100w]() + [Dev-2k]() + [TestA-2k]() + [TestB-6k]()   | 标题候选Dev、TestA 2万；TestB 5万  |TODO |  维基百科、微信公众号 |
+| 维语(ug)  | Dev-2k + TestA-2k + TestB-2k  | 标题候选Dev、TestA 2万；TestB 2万 | [cmxt_xctm_ug](https://share.weiyun.com/ecLbA6BW) | 维基百科、微信公众号|
+| 藏语(bo)  | Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_bo](https://share.weiyun.com/c7PRBNQL)  |维基百科、微信公众号 |
+| 传统哈萨克语(kk)  | Dev-2k + TestA-2k + TestB-6k  | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_kk](https://share.weiyun.com/tNjSer5x) | 维基百科、微信公众号 |
+| 传统蒙古语(mn)  | Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_mn](https://share.weiyun.com/l2xvCmyl) | 维基百科、微信公众号|
+| 朝鲜语(ko)  | Dev-2k + TestA-2k + TestB-6k  | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_ko](https://share.weiyun.com/INkI8djO) | 微信公众号  |
+| 英语(en)  |  Dev-2k + TestA-2k + TestB-6k | 标题候选Dev、TestA 2万；TestB 5万  |[cmxt_xctm_en](https://share.weiyun.com/0RWVj664) | 微信公众号  |
+| 汉语(zh)  | Train-100w + Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万  | [cmxt_xctm_zh]() |  微信公众号 |
 
-**打包下载：**[CMXT2022-Content-Title-Matching]()
+说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
 
-说明：第2列注明的量级为正文的量级；上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时，通过Email CMXT组织方获取
+**下载密钥获取方式：** 同上
+
 #### 任务3：跨语言短文检索(XSTS)
-
 ##### 1）数据样例
 每个非中文语种有三个文件，以藏语为例，`xsts_query_bo.txt`、`xsts_candidates_bo.txt`、`xsts_ids-map_bo.txt`，分别是请求文件、候选文件、请求和候选id映射文件。该任务是用非中文query去中文candidates里面检索语义相似的短文句子，**每一条query只有一个唯一中文答案**。
 以藏语dev为例，`xsts_query_bo.txt`文件内容如下：

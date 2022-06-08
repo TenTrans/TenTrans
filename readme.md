@@ -12,7 +12,15 @@
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
-##  1. <a name=''></a>项目介绍
+<p align="center">
+  <img src="asserts/tentrans.png" width="150">
+  <br />
+  <br />
+</p>
+
+--------------------------------------------------------------------------------
+
+## 🔥 项目介绍
 TenTrans是一个灵活轻量的自然语言处理训练框架， 支持常见的NLP任务（包括自然语言理解、生成、预训练）。 TenTrans有以下特点:
 
 - 任务原子化： 用户可以任意组合各种NLP任务进行联合训练， 各任务之间的参数可以细粒度地共享。
@@ -35,14 +43,14 @@ TenTrans目前支持的NLP任务包括
 - Average checkpoints and interactive inference
 
 
-##  2. <a name='-1'></a>安装教程
+## ⚙️安装
 ```
 git clone git@github.com:TenTrans/TenTrans.git
 pip install -r requirements.txt 
 ```
 Tentrans是一个基于Pytorch的轻量级工具包，安装十分方便。
 
-##  3. <a name='-1'></a>快速上手预训练模型
+##  🚀 快速上手预训练模型
 TenTrans支持多种预训练模型，包括基于编码器的预训练（e.g. MLM）和基于seq2seq结构的生成式预训练方法（e.g. Mass）。 此外， Tentrans还支持大规模的多语言机器翻译预训练。
 
 我们将从最简单的MLM预训练开始，让您快速熟悉TenTrans的运行逻辑。
@@ -135,15 +143,15 @@ python -m torch.distributed.launch \
                 --config run/xlm.yaml --multi_gpu True
 ```
 
-##  4. <a name='-1'></a>更多任务
+##  📋 更多任务
  - [文本分类（SST2）](examples/TASK/SST2.md) 
  - [机器翻译（WMT14ENDE）](examples/TASK/WMTENDE.md)
 
-##  5. <a name='-1'></a>开源协议
+##  🔑 开源协议
 此项目遵循MIT开源协议
 
 
-##  6. <a name='-1'></a>联系方式
+## 🙋‍♂️ 联系我们
 如果在使用本项目过程中出现问题或想要进一步的交流，可以联系Baijun Ji(begosu@foxmail.com; baijunji@tencent.com) ，Bojie Hu(bojiehu@tencent.com)，Ambyera(ambyera@tencent.com）。
 
 

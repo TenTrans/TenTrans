@@ -13,25 +13,27 @@
 <!-- /vscode-markdown-toc -->
 
 <p align="center">
-  <img src="asserts/tentrans.png" width="150">
-  <br />
-  <br />
+  <img src="asserts/tentrans.png" width="200">
+  </br>
+  <a href="https://github.com/TenTrans/TenTrans/blob/master/LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-blue" /></a>
+  <a href="https://github.com/TenTrans/TenTrans/releases"><img alt="Latest Release" src="https://img.shields.io/badge/Release-v1.0-yellow" /></a>
+  <a href="https://github.com/TenTrans/TenTrans/releases"><img alt="Latest Release" src="https://img.shields.io/badge/Language-Python-orange" /></a>
 </p>
 
 
+-------
 ## 🔥 项目介绍
 TenTrans是一个灵活轻量的自然语言处理训练框架， 支持常见的NLP任务（包括自然语言理解、生成、预训练）。 TenTrans有以下特点:
 
 - 任务原子化： 用户可以任意组合各种NLP任务进行联合训练， 各任务之间的参数可以细粒度地共享。
 - 高性能训练： TenTrans支持多机多卡大规模预训练，已在150G以上的超大规模语料上进行预训练验证。
 - 多语言及跨语言： TenTrans支持跨语言预训练，用户可以通过迁移学习的方式解决低资源语言语料不足的问题。
-- 多模态： TenTrans目前支持图片作为输入，包括OCR识别和图片翻译。
+- 工业化部署：Tentrans配套高性能的解码器 [TenTrans-Decoding](https://github.com/TenTrans/TenTrans-Decoding), 可直接用于生产环境。
 
 TenTrans目前支持的NLP任务包括
-- 自然语言生成（机器翻译、图片翻译）
+- 自然语言生成（机器翻译）
 - 自然语言理解（文本分类,跨语言理解）
 - 预训练（MLM、TLM、MASS）
-- 多模态生成 （图片翻译）
 
 支持特性：
 - Transformer
@@ -42,14 +44,15 @@ TenTrans目前支持的NLP任务包括
 - Average checkpoints and interactive inference
 
 
-## ⚙️安装
+
+## ⚙️ 安装
 ```
 git clone git@github.com:TenTrans/TenTrans.git
 pip install -r requirements.txt 
 ```
 Tentrans是一个基于Pytorch的轻量级工具包，安装十分方便。
 
-##  🚀 快速上手预训练模型
+## 🚀 快速上手预训练模型
 TenTrans支持多种预训练模型，包括基于编码器的预训练（e.g. MLM）和基于seq2seq结构的生成式预训练方法（e.g. Mass）。 此外， Tentrans还支持大规模的多语言机器翻译预训练。
 
 我们将从最简单的MLM预训练开始，让您快速熟悉TenTrans的运行逻辑。
@@ -146,7 +149,7 @@ python -m torch.distributed.launch \
  - [文本分类（SST2）](examples/TASK/SST2.md) 
  - [机器翻译（WMT14ENDE）](examples/TASK/WMTENDE.md)
 
-##  🔑 开源协议
+## 🔑 开源协议
 此项目遵循MIT开源协议
 
 

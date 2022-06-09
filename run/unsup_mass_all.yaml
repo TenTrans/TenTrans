@@ -2,7 +2,7 @@
 langs: [en, zh, ug, mn, ti]
 epoch: 20
 update_every_epoch:  20
-dumpdir: /apdcephfs/share_1399748/users/baijunji/data/exp/tentrans/mass_debug
+dumpdir: ./data/exp/tentrans/mass_debug
 share_all_task_model: True
 optimizer: adam 
 batch_size: 32
@@ -23,7 +23,7 @@ tasks:
   en_mlm:
     task_name: unsup_mass
     data: 
-        data_folder: /apdcephfs/share_1399748/users/bengiojiang/data/xlm_pretrain/v1/spm
+        data_folder: ./data/xlm_pretrain/v1/spm
         src_vocab: tentrans.vocab
         tgt_vocab: tentrans.vocab
         train_valid_test: [dev.spm.en.pth, dev.spm.zh.pth, dev.spm.en.pth]

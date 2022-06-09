@@ -139,7 +139,7 @@ tasks:                #任务定义， TenTrans支持多种任务联合训练，
 单机多卡
 
 ```shell
-export NPROC_PER_NODE=8;
+export CUDA_VISIBLE_DEVICES=8;
 python -m torch.distributed.launch \
                 --nproc_per_node=$NPROC_PER_NODE main.py \
                 --config run/xlm.yaml --multi_gpu True

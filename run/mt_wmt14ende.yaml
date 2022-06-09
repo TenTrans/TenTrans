@@ -3,7 +3,7 @@
 langs: [en, de]
 epoch: 150
 update_every_epoch: 1000
-dumpdir: /apdcephfs/share_1399748/users/baijunji/data/exp/paper/wmtende
+dumpdir: ./data/exp/paper/wmtende
 
 share_all_task_model: True
 optimizer: adam 
@@ -30,7 +30,7 @@ tasks:
     task_name: seq2seq
     reload_checkpoint:
     data:
-        data_folder:  /apdcephfs/share_1399748/users/baijunji/data/train_data/wmt16_ende/bin
+        data_folder:  ./data/train_data/wmt16_ende/bin
         src_vocab: vocab.bpe.32000
         tgt_vocab: vocab.bpe.32000
         train_valid_test: [train.bpe.en.pth:train.bpe.de.pth, valid.bpe.en.pth:valid.bpe.de.pth, valid.bpe.en.pth:valid.bpe.de.pth]

@@ -5,7 +5,7 @@ update_every_epoch: 200
 share_all_task_model: False
 batch_size: 1
 save_interval: 20
-dumpdir: /share_1399748/users/baijunji/data/exp/tentrans/sst2_debug
+dumpdir: ./data/exp/tentrans/sst2
 patience: 20
 sentenceRep:
       type: transformer 
@@ -24,7 +24,7 @@ tasks:
   sst2_en:
     task_name: classification
     data:
-        data_folder: //share_1399748/users/baijunji/data/train_data/sst2.v2/xlm_inner/
+        data_folder: ./data/train_data/sst2/
         src_vocab: tentrans.vocab
         train_valid_test: [dev.csv, dev.csv, dev.csv]
         label1: [0, 1]

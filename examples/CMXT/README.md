@@ -138,8 +138,8 @@
 | 传统哈萨克语(kk)  | Dev-2k + TestA-2k + TestB-6k  | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_kk](https://share.weiyun.com/tNjSer5x) | 维基百科、微信公众号 |
 | 传统蒙古语(mn)  | Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_mn](https://share.weiyun.com/l2xvCmyl) | 维基百科、微信公众号|
 | 朝鲜语(ko)  | Dev-2k + TestA-2k + TestB-6k  | 标题候选Dev、TestA 2万；TestB 5万 |[cmxt_xctm_ko](https://share.weiyun.com/INkI8djO) | 微信公众号  |
-| 英语(en)  |  Dev-2k + TestA-2k + TestB-6k | 标题候选Dev、TestA 2万；TestB 5万  |[cmxt_xctm_en](https://share.weiyun.com/0RWVj664) | 微信公众号  |
-| 汉语(zh)  | Train-100w + Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万  | [cmxt_xctm_zh]() |  微信公众号 |
+| 英语(en)  |  Dev-2k + TestA-2k + TestB-6k | 标题候选Dev、TestA 2万；TestB 5万  |[cmxt_xctm_en](https://share.weiyun.com/FRzKZ5Ej) | 微信公众号  |
+| 汉语(zh)  | Train-100w + Dev-2k + TestA-2k + TestB-6k   | 标题候选Dev、TestA 2万；TestB 5万  | [cmxt_xctm_zh](https://share.weiyun.com/KsExRDon) |  微信公众号 |
 
 说明：上述链接除TestB外，在第二阶段评测开始时生效；TestB的下载密钥在第三阶段开启时
 

@@ -40,7 +40,8 @@ class TLMTask(MLMTask):
         self.task_name = TASK_NAME
         if self.local_rank == 0 or self.local_rank is None:
             logger.info(self.model)
-
+        self.tgt_vocab = vocab
+        
     def train_step(self):
 
         self.model.train()

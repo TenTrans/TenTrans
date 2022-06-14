@@ -144,7 +144,7 @@ python -m torch.distributed.launch \
 This project is released under MIT License.
 
 ## 🙋‍♂️ Contact information
-For communication related to this project, please contact Baijun Ji(begosu@foxmail.com; baijunji@tencent.com) ，Bojie Hu(bojiehu@tencent.com)，Ambyera(ambyera@tencent.com）。
+For communication related to this project, please contact Baijun Ji(begosu@foxmail.com; baijunji@tencent.com) ，Bojie Hu(bojiehu@tencent.com)，Ambyera(ambyera@tencent.com）.
 
 
 

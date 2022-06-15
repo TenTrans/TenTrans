@@ -243,6 +243,49 @@
 其中，Count_i表示类别i所对应的数据条数
 
 ### 任务2：跨语言正文与标题匹配
+
+<table>
+    <tr>
+        <th align="left" colspan="2" rowspan="2"></th>
+        <th align="center" colspan="4">测试集答案</th>
+    </tr>
+    <tr>
+        <td>候选1</td>
+        <td>候选2</td>
+        <td>...</td>
+        <td>候选n</td>
+    </tr>
+    <tr>
+        <td align="center" rowspan="4"> 模型预测结果</td>
+        <td>候选1</td>
+        <td>C11</td>
+        <td>C12</td>
+        <td>...</td>
+        <td>C1n</td>
+    </tr>
+    <tr>
+        <td>候选2</td>
+        <td>C21</td>
+        <td>C22</td>
+        <td>...</td>
+        <td>C2n</td>
+    </tr>
+    <tr>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+        <td>...</td>
+    </tr>
+    <tr>
+        <td>候选n</td>
+        <td>Cn1</td>
+        <td>Cn2</td>
+        <td>...</td>
+        <td>Cnn</td>
+    </tr>
+</table>
+
 <img src="Task3.png" alt="Your image title" width="250"/>
 
 

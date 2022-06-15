@@ -63,8 +63,10 @@
 每个语种都有一个文件，如维语，`xtc_ug.txt`有三列：
 
     id	topic	topic_id	text	
-    id	话题类型	话题ID	内容
-
+    1	政治	1	在这方面,在移交行政管理能力前,科索沃特派团没有为评估中央政府各部委和地方市政府的准备程度制订最低标准,也没有建立有效机制以监测和确定各部委和市府是否已适当接管了科索沃特派团移交的能力。
+    2       体育    11      大三阄林宅的传说则是结局相反，徒弟所画的向内的船更大。绝地求生冠军联赛2019年夏季赛，是2019年夏季在中国大陆进行的绝地求生冠军联赛。比赛于2019年8月19日-9月29日进行，最终4AM战队获得冠军，iFTY战队获得亚军。
+    ...
+    9999    医学    6       A.对未种过卡介苗者，年龄愈小，阳性反应愈表示体内有活动性结核病灶B.如近数月由阴性转为阳性，示近期有结核感染，且肯定为活动性结核病C.阳性程度与结核病变严重程度无关D.阴性反应不一定排除结核病E.新近感染或活动性结核病常为强阳性
 话题类型—话题ID对应关系表
 
 
@@ -193,7 +195,7 @@
 ## 三、客观评价指标
 <span id="evaluation"></span>
 ### 任务1：跨语言话题分类
-**Macro-F1 作为评价指标：分别计算出各个类别对应的F1值，然后取平均得到Macro-F1**
+**Weighted-F1 作为评价指标：分别计算出各个类别对应的F1值，然后按权重计算得到Weighted-F1**
 
 <table>
     <tr>
@@ -237,25 +239,14 @@
     </tr>
 </table>
 
-<img src="Task1-evaluation.png" alt="Your image title" width="320"/>
+<img src="Task1-evaluation.png" alt="Your image title" width="520"/>
+其中，Count_i表示类别i所对应的数据条数
 
 ### 任务2：跨语言正文与标题匹配
-#### P@n:
- 前n个结果的准确率，P指的是Precision
- 
-　　　　　　　　　 ![formula](https://render.githubusercontent.com/render/math?math=$P@n=\frac{1}{n}\sum_{i=1}^{n}y_i$)
- 
+<img src="Task3.png" alt="Your image title" width="250"/>
 
-其中，![formula](https://render.githubusercontent.com/render/math?math=$y_i$)=0,1分别表示第i个结果不相关、相关。对于测试集的每个case，P@n取平均值代表该系统的得分。
 
-#### MRR
-依照正确答案在检索结果中的排名来评估系统的性能
-
-　　　　　　　　　 ![formula](https://render.githubusercontent.com/render/math?math=$MRR=\frac{1}{N}\sum_{i=1}^{N}\frac{1}{rank_i}$)
-
-其中，![formula](https://render.githubusercontent.com/render/math?math=$rank_i$)表示对于测试集的第i个正文case，对应的标题在整个候选列表中的排序位置。
-
-**P@n(n取1和5)和MRR共同作为评价指标。**
+**Accuracy作为评价指标**
 ### 任务3：跨语言短文检索
 <table>
     <tr>
@@ -360,8 +351,8 @@
 ## 七、赛事排名标准
 <span id="rank"></span>
 ### 1、子任务分数计算
-- 任务1：计算Macro-F1作为该任务的得分。
-- 任务2：计算P@1、P@5、F1的平均值作为该任务的得分。
+- 任务1：计算Weighted-F1作为该任务的得分。
+- 任务2：计算Accuracy作为该任务的得分。
 - 任务3：计算Accuracy作为该任务的得分。
 
 ### 2、最终排名标准

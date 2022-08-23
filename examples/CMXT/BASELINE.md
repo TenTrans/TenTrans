@@ -5,9 +5,9 @@
 ### 1.2 下载方式
 |模型    | 链接  | 备注  |
 | :------------ | :------------ | :------------ |
-| Tiny   | [tiny.pretrain_model.zip]() | 使用Tentrans平台自训练 |
-| Base  | [base.pretrain_model.zip]() | 使用Tentrans平台自训练 |
-| Large  | [large.pretrain_model.zip]() | 为节省计算资源，我们直接使用tentrans平台， 复用[XLMR](https://arxiv.org/abs/1911.02116) 模型的参数，针对XLMR-LARGE不支持某些小语种的问题，我们在XLMR-LARGE的词表基础上，额外追加了一部分小语种特有token（新词表为xlmr.vocab.add），并将这些token对应的embedding做随机初始化，然后继续做continue pretrain。 |
+| Tiny   | [tiny.pretrain_model.zip](https://share.weiyun.com/ocTD0orN) | 使用Tentrans平台自训练 |
+| Base  | [base.pretrain_model.zip](https://share.weiyun.com/aUXPCKt2) | 使用Tentrans平台自训练 |
+| Large  | [large.pretrain_model.zip](https://share.weiyun.com/wnWkLgt7) | 为节省计算资源，我们直接使用tentrans平台， 复用[XLMR](https://arxiv.org/abs/1911.02116) 模型的参数，针对XLMR-LARGE不支持某些小语种的问题，我们在XLMR-LARGE的词表基础上，额外追加了一部分小语种特有token（新词表为xlmr.vocab.add），并将这些token对应的embedding做随机初始化，然后继续做continue pretrain。 |
 
 ### 1.3 模型参数
 |模型    | hidden_size  | ff_size  | encoder_layers | embedd_size | num_heads |
@@ -43,7 +43,7 @@
 # 三、BASELINE复现方式
 ## 1. XTC
 ### 1.1 Tiny&Base
-下载代码：[Teg-Tentrans-xtc-tiny_base-finetune.zip]()
+下载代码：[Teg-Tentrans-xtc-tiny_base-finetune.zip](https://share.weiyun.com/A1NwpeSz)
 #### 1.1.1 Finetune
 以Tiny为例
 ```
@@ -75,7 +75,7 @@ model_path: finetune产生的模型
 ```
 
 ### 1.2 Large
-下载代码[Teg-Tentrans-xtc-large-finetune.zip]()（为了兼容XLMR模型，代码在TenTrans的主分支基础上有所修改）
+下载代码[Teg-Tentrans-xtc-large-finetune.zip](https://share.weiyun.com/MgpyAksP)（为了兼容XLMR模型，代码在TenTrans的主分支基础上有所修改）
 #### 1.2.1 Finetune
 ```
 lang=bo

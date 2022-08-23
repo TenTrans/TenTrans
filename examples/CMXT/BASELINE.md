@@ -5,9 +5,9 @@
 ### 1.2 下载方式
 |模型    | 链接  | 备注  |
 | :------------ | :------------ | :------------ |
-| Tiny   |   | |
-| Base  |  | |
-| Large  |  | |
+| Tiny   |  | 使用Tentrans平台自训练 |
+| Base  |  | 使用Tentrans平台自训练 |
+| Large  |  | 为节省计算资源，我们直接使用tentrans平台， 复用[XLMR](https://arxiv.org/abs/1911.02116) 模型的参数，针对XLMR-LARGE不支持某些小语种的问题，我们在XLMR-LARGE的词表基础上，额外追加了一部分小语种特有token（新词表为xlmr.vocab.add），并将这些token对应的embedding做随机初始化，然后继续做continue pretrain。 |
 
 ### 1.3 模型参数
 |模型    | hidden_size  | ff_size  | encoder_layers | embedd_size | num_heads |
@@ -18,7 +18,7 @@
 
 # 二、BASELINE
 ## 1. XTC
-说明：以下结果使用Tentrans平台代码进行finetune, 选择在中文的Dev上选择weighted-F1得分最高的模型，然后测试该模型在各个语种的Dev和TestA上的得分
+说明：以下结果使用Tentrans平台代码进行finetune, 在各个语种的Dev上选择weighted-F1得分最高的模型，然后测试该模型在各个语种的TestA上的得分
 
 ### 1.1 Tiny
 |Tentrans-Tiny  | zh |	mn	| bo|	ug	|ct	| en	| kk	| ko	| average 
@@ -32,7 +32,7 @@
 | Dev | 73.1	|65	|45.9	|60.3	|69.4	|67.1	|52.4	|66.3| 62.4 |
 | TestA | 72.4|66|43.9|60.4|69.9|69.5|51.8|64.2	|62.3|
 
-### 1.3 large
+### 1.3 Large
 |Tentrans-Large  | zh |	mn	| bo|	ug	|ct	| en	| kk	| ko	| average  |
 | :------------ | :------------ | :------------ |:------------ |:------------ |:------------ |:------------ |:------------ |:------------ |:------------ |
 | Dev | 72.8 | 64.9|	48.8|	61.7| 70.6|	68.8| 53	|67.5 | 63.5|
@@ -40,5 +40,49 @@
 
 ## 2. XSTS
 
-# 三 BASELINE复现方式
+# 三、BASELINE复现方式
 ## 1. XTC
+### 1.1 Tiny&Base
+下载finetune使用的代码：
+#### 1.1.1 Finetune
+以Tiny为例
+```
+
+```
+#### 1.1.2 INFER
+以Tiny为例
+```
+
+```
+
+### 1.2 Large
+下载代码（为了兼容XLMR模型，代码在TenTrans的主分支基础上有所修改）
+#### 1.2.1 FINETUNE
+```
+lang=bo
+lr_p=0.000005 # lr_p in [0.00000125, 0.0000025, 0.000005]
+lr_e=0.000005 # lr_e in [0.00000125, 0.0000025, 0.000005]
+batch_size=32
+
+cd Teg-Tentrans-xtc-large-finetune
+
+python3 main.py \
+--config run/${lang}_xtc_large.yaml \
+--lr_p ${lr_p} \
+--lr_e ${lr_e} \
+--batch_size ${batch_size} \
+--dumpdir bz_${batch_size}+lr_p.${lr_p}+lr_e.${lr_e} \
+--data_folder xtc_large/${lang} \
+--pretrain_rep large.pretrain_model/checkpoint_mlm_mlm_650
+
+```
+#### 1.2.2 INFER
+```
+cd Teg-Tentrans-xtc-large-finetune/infer
+sh run_infer.sh ${input} ${data_path} ${model_path}
+输入说明：
+input: 经过预处理（sentence piece）的小语种输入文本
+data_path: 词表所在的文件夹路径
+model_path: finetune产生的模型
+
+```

@@ -54,6 +54,8 @@
 | XLM-r | 64.3	| -	| 77.9	|16.6	|-	|50.6	|-	|
 | distiluse-base-multilingual | 67.4	|-|84.7	|-	|-	|46.1	|-	|
 
+使用sentence-transformers 进行跨语言相似度参考：https://www.sbert.net/docs/usage/semantic_textual_similarity.html
+
 # 三、BASELINE复现方式
 ## 1. XTC
 ### 1.1 Tiny&Base

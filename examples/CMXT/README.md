@@ -1,5 +1,5 @@
 # 跨语言迁移评测：中文到民族语言 (CMXT) 
-### Chinese-Minority Cross-lingual Transfer Evalutaion (CMXT)
+### Chinese-Minority Cross-lingual Transfer Evaluation (CMXT)
 [中文-民语跨语言迁移评测-CMXT官方Github](https://github.com/TenTrans/TenTrans/edit/master/examples/CMXT)
 ## 一、任务介绍
 ### 1、任务背景

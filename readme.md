@@ -60,7 +60,7 @@ The following instruction will show how to train the pretraining model based MLM
 
 1. Data Process
 
-We first should binarize the training data to acclerate the training process. The vocabulary file is in the form of one word per line. Then do the following command to generate the binary file.
+We should first binarize the training data to acclerate the training process. The vocabulary file is in the form of one word per line. Then do the following command to generate the binary file.
 
 ```bash
 python process.py vocab file  lang [shard_id](optional)
@@ -69,7 +69,7 @@ python process.py vocab file  lang [shard_id](optional)
 
 2. Configuration
 
-TenTrans use the **yaml file**  for configuration. We provides several templates of different tasks(see **run/**/ directory). You can modify these files for adaptation.
+TenTrans uses the **yaml file**  for configuration. We provide several templates of different tasks(see **run/**/ directory). You can modify these files for adaptation.
 
 ```yaml
 # base config
